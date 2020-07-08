@@ -1,0 +1,43 @@
+<div id="mainContainer">
+    <div id="authContainer">
+        <div id="login" [formGroup]="signInForm" [@slideDown] *ngIf="showLogin">
+            <h1>Login</h1>
+            <mat-form-field>
+                <input matInput formControlName="email" placeholder="Email">
+                <mat-error>Please enter a valid email address.</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="password" type="password" placeholder="Password">
+                <mat-error>Please enter your password</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="error">{{errorMessage}}</mat-error>
+            <p>Don't have an account? <span (click)="toggleLogin()" class="link">Register here!</span></p>
+            <div class="bottomOfForm">
+                <button (click)="login()" mat-stroked-button>Login</button>
+                <mat-spinner *ngIf="showSpinner" diameter="30"></mat-spinner>
+            </div>
+        </div>
+        <div id="register" [formGroup]="registerForm" [@slideDownReg] *ngIf="showRegister">
+            <h1>Register</h1>
+            <mat-form-field>
+                <input matInput formControlName="email" placeholder="Email">
+                <mat-error>Please enter a valid email address.</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="password" type="password" placeholder="Password">
+                <mat-error>Passwords must be more than 8 characters and the same</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="confirmPassword" type="password"  placeholder="Re-enter Password">
+                <mat-error>Passwords must be more than 8 characters and the same</mat-error>
+            </mat-form-field>
+            <mat-error *ngIf="registerForm.hasError('mismatchedPasswords')">Passwords are not the same</mat-error>
+            <mat-error *ngIf="error">{{errorMessage}}</mat-error>
+            <p>Already have an account? <span (click)="toggleRegister()" class="link">Go to Login!</span></p>
+            <div class="bottomOfForm">
+                <button (click)="register()" mat-stroked-button>Register</button>
+                <mat-spinner *ngIf="showSpinner" diameter="30"></mat-spinner>
+            </div>
+        </div>
+    </div>
+</div>

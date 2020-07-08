@@ -1,0 +1,16 @@
+#journalDetailContainer {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.entryContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+
+    p {
+        padding-bottom: 5px;
+        padding-left: 20px;
+    }
+}

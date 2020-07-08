@@ -1,0 +1,16 @@
+<div id="journalDetailContainer">
+    <div id="leftSide">
+        <div id="journalHeader">
+            <div id="journalNav">
+                <p>My Journals</p>
+            </div>
+            <h1>{{journal.title}}</h1>
+        </div>
+        <div *ngFor="let entry of journal.entries" class="entryContainer">
+            <h1>{{entry.title}}</h1>
+            <p>{{entry.body | slice:0:20}}...</p>
+        </div>
+    </div>
+    <div id="rightSide">Tags go here</div>
+    
+</div>

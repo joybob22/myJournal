@@ -1,0 +1,33 @@
+<div id="dashboard">
+    <div id="dashboardJumbotron">My Journals</div>
+    <div id="journals">
+        <div class="journalCard firstJournalCard">
+            <div class="journalOverlay">
+                <div>
+                    <div class="journalTitle firstJournalTitle">My First Journal</div>
+                    <div class="titleUnderline firstUnderline"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="journalCard" [style.backgroundImage]="'url(../../assets/displayImages/' + journal.img + ')'" *ngFor='let journal of journals'>
+            <div class="journalOverlay">
+                <div>
+                    <div class="journalTitle">{{journal.title}}</div>
+                    <div class="titleUnderline"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="addNewJournalButton" class="addNewJournalButton" (click)="showAddJournalForm()">
+        <div *ngIf="!showForm">+</div>
+        <div *ngIf="showForm" [formGroup]="newJournalForm">
+            <div class="closeButton" (click)="closeForm();$event.stopPropagation()">Close</div>
+            <mat-form-field class="inputContainer">
+                <input formControlName="title" matInput placeholder="New Journal Name">
+                <mat-error>Please enter a name for your new journal</mat-error>
+            </mat-form-field>
+            <button (click)="createNewJournal()" mat-stroked-button>Create</button>
+        </div>
+    </div>
+</div>
