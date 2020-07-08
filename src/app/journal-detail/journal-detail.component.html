@@ -1,16 +1,34 @@
 <div id="journalDetailContainer">
-    <div id="leftSide">
-        <div id="journalHeader">
-            <div id="journalNav">
-                <p>My Journals</p>
+    <div id="journalNav">
+        <p>> My Journals</p>
+    </div>
+    <div id="journalDetailBody">
+        <div id="leftSide">
+            <div id="journalHeader">
+                <h1>{{journal.title}}</h1>
             </div>
-            <h1>{{journal.title}}</h1>
+            <div class="entryHeaders">
+                <p>Title</p>
+                <p>Date</p>
+                <p>Content</p>
+            </div>
+            <div *ngFor="let entry of journal.entries" class="entryContainer">
+                <h1>{{entry.title}}</h1>
+                <p>{{entry.date | date}}</p>
+                <p>{{entry.body | slice:0:20}}...</p>
+            </div>
+            
         </div>
-        <div *ngFor="let entry of journal.entries" class="entryContainer">
-            <h1>{{entry.title}}</h1>
-            <p>{{entry.body | slice:0:20}}...</p>
+        <div id="rightSide">
+            <div id="tagContainer">
+                <h1>Tags</h1>
+                <div class="tags">
+                    <div *ngFor="let tag of tags" class="tag">{{tag}}</div>
+                </div>
+            </div>
         </div>
     </div>
-    <div id="rightSide">Tags go here</div>
+    
+    
     
 </div>
