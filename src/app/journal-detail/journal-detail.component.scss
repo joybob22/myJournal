@@ -11,6 +11,16 @@ h1 {
     padding: 20px;
     color: #708090;
 
+    #journalNav p {
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        &:focus {
+            outline: 0;
+        }
+    }
+
     #journalDetailBody {
         display: grid;
         grid-template-columns: 3fr 1fr;

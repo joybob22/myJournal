@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JournalService } from '../services/journal.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Journal } from '../models/journal.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class DashboardComponent implements OnInit {
 
   journals;
+  firstJournal: Journal;
   showForm:boolean = false;
   newJournalForm: FormGroup;
 
@@ -19,7 +21,13 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.journals = this.journalService.journals;
+    this.journals = this.journalService.journals.filter((journal, index) => {
+      if(index != 0) {
+        return true;
+      } else {
+        this.firstJournal = journal;
+      }
+    });
     this.newJournalForm = this.fb.group({
       title: ['', [Validators.required]]
     })

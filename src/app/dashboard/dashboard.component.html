@@ -1,16 +1,16 @@
 <div id="dashboard">
     <div id="dashboardJumbotron">My Journals</div>
     <div id="journals">
-        <div class="journalCard firstJournalCard">
+        <div [routerLink]="['../journal', firstJournal.id]" [style.backgroundImage]="'url(../../assets/displayImages/' + firstJournal.img + ')'" class="journalCard firstJournalCard">
             <div class="journalOverlay">
                 <div>
-                    <div class="journalTitle firstJournalTitle">My First Journal</div>
+                    <div class="journalTitle firstJournalTitle">{{firstJournal.title}}</div>
                     <div class="titleUnderline firstUnderline"></div>
                 </div>
             </div>
         </div>
 
-        <div class="journalCard" [style.backgroundImage]="'url(../../assets/displayImages/' + journal.img + ')'" *ngFor='let journal of journals'>
+        <div [routerLink]="['../journal', journal.id]" class="journalCard" [style.backgroundImage]="'url(../../assets/displayImages/' + journal.img + ')'" *ngFor='let journal of journals'>
             <div class="journalOverlay">
                 <div>
                     <div class="journalTitle">{{journal.title}}</div>

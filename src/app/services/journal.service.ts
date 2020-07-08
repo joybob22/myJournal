@@ -11,6 +11,28 @@ export class JournalService {
   get journals() {
     return [
       {
+        title: 'My First Journal',
+        id: '0',
+        img: 'beige-and-black-chair-in-front-of-white-desk-509922.jpg',
+        entries: [
+          {
+            title: 'Day 1',
+            date: new Date(),
+            body: 'Stuff happened bro'
+          },
+          {
+            title: 'Day 2',
+            date: new Date(),
+            body: 'Stuff happened bro'
+          },
+          {
+            title: 'Day 3',
+            date: new Date(),
+            body: 'Stuff happened bro'
+          },
+        ]
+      },
+      {
       title: 'The Mission',
       id: '1',
       img: 'buildings-city-city-view-cityscape-597909.jpg',
