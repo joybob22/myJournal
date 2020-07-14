@@ -3,6 +3,10 @@ html,body, h1, h2, h3, h4, h5, h6, p, div {
     padding: 0;
 }
 
+.noDisplay {
+    display: none;
+}
+
 h1 {
     font-weight: 100;
 }
@@ -46,6 +50,8 @@ h1 {
     font-weight: 100;
 }
 
+
+
 .entryContainer {
     // display: flex;
     // justify-content: flex-start;
@@ -75,19 +81,63 @@ h1 {
     position: relative;
 
     #tagContainer {
-        position: fixed;
         box-sizing: border-box;
         margin: 10px;
         background-color: #f6f6f6;
         padding: 10px;
 
-        h1 {
-            margin-bottom: 20px;
+        #tagHead {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 100;
+            align-items: center;
+
+            i {
+                font-size: 1.5em;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .divider {
+            height: 1px;
+            width: 30%;
+            background-color: #708090;
+            margin: 20px 0;
+        }
+
+        .createTagForm {
+            transition: all 0.5s;
+            overflow: hidden;
+            height: 0px;
+            display: flex;
+            justify-content: space-between;
+            
+        }
+
+        .showTagForm {
+            height: 40px;
+            padding-bottom: 20px;
+        }
+
+        .dividerSecond {
+            width: 30%;
+            background-color: #708090;
+            transition: all 0.5s;
+        }
+
+        .showTagDivider {
+            display: block;
+            margin-bottom: 10px;
+            color: #994C4C;
         }
 
         .tags {
             display: flex;
             flex-wrap: wrap;
+            justify-content: center;
 
             .tag {
                 padding: 5px 10px;
@@ -100,6 +150,25 @@ h1 {
                     background-color: #708090;
                     color: white;
                     cursor: pointer;
+                }
+
+            }
+
+            .activeTag {
+                background-color: #708090;
+                color: white;
+
+                &:hover {
+                    background-color: #56636f;
+                }
+            }
+
+            .editTagMode {
+                border: 1px solid #994C4C;
+                color: #994C4C;
+                background-color: transparent;
+                &:hover {
+                    background-color: #994C4C;
                 }
             }
         }

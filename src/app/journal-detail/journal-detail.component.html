@@ -21,9 +21,21 @@
         </div>
         <div id="rightSide">
             <div id="tagContainer">
-                <h1>Tags</h1>
+                <div id="tagHead">
+                    <h1>Tags</h1>
+                    <i class="fas fa-pencil-alt" (click)="handleEditClick()"></i>
+                </div>
+                <div class="divider"></div>
+                <div class="createTagForm" [ngClass]="{'showTagForm': editMode}" [formGroup]="newTagForm">
+                    <mat-form-field>
+                        <input (keypress)="handleNewTagEnterKey($event)" [(ngModel)]="newTagName" formControlName="tagName" placeholder="Tag Name" type="text" matInput>
+                        <mat-error>Please enter a tag name</mat-error>
+                    </mat-form-field>
+                    <button mat-stroked-button class="submitButton" (click)="createNewTag()">Create Tag</button>
+                </div>
+                <div [ngClass]="{'showTagDivider': editMode}" class="noDisplay">Click the tags below to remove them.</div>
                 <div class="tags">
-                    <div *ngFor="let tag of tags" class="tag">{{tag}}</div>
+                    <div *ngFor="let tag of tags" class="tag" [ngClass]="{'editTagMode': editMode}" (click)="handleTagClick(tag, $event)">{{tag}}</div>
                 </div>
             </div>
         </div>
