@@ -4,12 +4,14 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './gaurds/auth.guard';
 import { JournalDetailComponent } from './journal-detail/journal-detail.component';
+import { EntryDetailComponent } from './entry-detail/entry-detail.component';
 
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', canActivate: [AuthGuard], component: DashboardComponent},
   { path: 'journal/:id', canActivate: [AuthGuard], component: JournalDetailComponent},
+  { path: 'journal/:id/:entryId', canActivate: [AuthGuard], component: EntryDetailComponent},
   { path: '**', redirectTo: 'login'}
 ];
 

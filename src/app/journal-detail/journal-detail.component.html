@@ -12,7 +12,7 @@
                 <p>Date</p>
                 <p>Content</p>
             </div>
-            <div *ngFor="let entry of journal.entries" class="entryContainer">
+            <div *ngFor="let entry of journal.entries" class="entryContainer" [routerLink]="[entry.id]">
                 <h1>{{entry.title}}</h1>
                 <p>{{entry.date | date}}</p>
                 <p>{{entry.body | slice:0:20}}...</p>
@@ -33,9 +33,10 @@
                     </mat-form-field>
                     <button mat-stroked-button class="submitButton" (click)="createNewTag()">Create Tag</button>
                 </div>
-                <div [ngClass]="{'showTagDivider': editMode}" class="noDisplay">Click the tags below to remove them.</div>
+                <div [ngClass]="{'showTagDivider': editMode}" class="noDisplay" *ngIf="tags.length !== 0">Click the tags below to remove them.</div>
                 <div class="tags">
                     <div *ngFor="let tag of tags" class="tag" [ngClass]="{'editTagMode': editMode}" (click)="handleTagClick(tag, $event)">{{tag}}</div>
+                    <div *ngIf="tags.length === 0">Add tags to stay organized.</div>
                 </div>
             </div>
         </div>

@@ -18,17 +18,20 @@ export class JournalService {
           {
             title: 'Day 1',
             date: new Date(),
-            body: 'Stuff happened bro'
+            body: 'Stuff happened bro',
+            id: '0'
           },
           {
             title: 'Day 2',
             date: new Date(),
-            body: 'Stuff happened bro'
+            body: 'Stuff happened bro',
+            id: '1'
           },
           {
             title: 'Day 3',
             date: new Date(),
-            body: 'Stuff happened bro'
+            body: 'Stuff happened bro',
+            id: '2'
           },
         ]
       },
@@ -40,17 +43,20 @@ export class JournalService {
         {
           title: 'Day 1',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '0'
         },
         {
           title: 'Day 2',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '1'
         },
         {
           title: 'Day 3',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '2'
         },
       ]
     },
@@ -62,17 +68,20 @@ export class JournalService {
         {
           title: 'Day 1',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '0'
         },
         {
           title: 'Day 2',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '1'
         },
         {
           title: 'Day 3',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '2'
         },
       ]
     },
@@ -84,17 +93,20 @@ export class JournalService {
         {
           title: 'Day 1',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '0'
         },
         {
           title: 'Day 2',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '1'
         },
         {
           title: 'Day 3',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '2'
         },
       ]
     },
@@ -106,17 +118,20 @@ export class JournalService {
         {
           title: 'Day 1',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '0'
         },
         {
           title: 'Day 2',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '1'
         },
         {
           title: 'Day 3',
           date: new Date(),
-          body: 'Stuff happened bro'
+          body: 'Stuff happened bro',
+          id: '2'
         },
       ]
     }
