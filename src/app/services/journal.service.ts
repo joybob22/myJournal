@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Journal } from '../models/journal.model';
+import { Entries } from '../models/entries.model';
 
 @Injectable({
   providedIn: 'root'
@@ -147,6 +148,17 @@ export class JournalService {
       }
     })[0];
     return theJournal
+  }
+
+  getEntryById(journalId:string, entryId:string):Entries {
+    const theJournal = this.getJournalById(journalId);
+    return theJournal.entries.filter(entry => {
+      if(entry.id === entryId) {
+        return true;
+      } else {
+        return false;
+      }
+    })[0];
   }
 
 

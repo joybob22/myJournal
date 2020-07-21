@@ -1,1 +1,14 @@
-<p>entry-detail works!</p>
+<div id="entryDetailContainer">
+    <div class="header">
+        <div class="leftHeader">
+            <h1>{{entry.title}}</h1>
+            <p>{{entry.date | date}}</p>
+        </div>
+        <i title="Edit" class="fas fa-pencil-alt"></i>
+    </div>
+    <p [innerHTML]="entry.body"></p>
+    <div [formGroup]="editEntryForm">
+    
+        <angular-editor formControlName="entryContent" [config]="config"></angular-editor>
+    </div>
+</div>
