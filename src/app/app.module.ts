@@ -16,6 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { JournalDetailComponent } from './journal-detail/journal-detail.component';
 import { EntryDetailComponent } from './entry-detail/entry-detail.component';
@@ -38,6 +40,8 @@ import { EntryDetailComponent } from './entry-detail/entry-detail.component';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule

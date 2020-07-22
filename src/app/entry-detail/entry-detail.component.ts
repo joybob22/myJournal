@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { JournalService } from '../services/journal.service';
 import { Entries } from '../models/entries.model';
+
 
 @Component({
   selector: 'app-entry-detail',
@@ -12,9 +13,13 @@ import { Entries } from '../models/entries.model';
 })
 export class EntryDetailComponent implements OnInit {
 
+  journalId;
+  entryId;
   entryContent = '';
   editEntryForm: FormGroup;
   entry:Entries;
+  editMode: boolean = false;
+  datePickerDate;
 
   constructor(
     private fb: FormBuilder,
@@ -25,12 +30,18 @@ export class EntryDetailComponent implements OnInit {
   ngOnInit(): void {
     const journalId = this._route.snapshot.params['id'];
     const entryId = this._route.snapshot.params['entryId'];
+    this.journalId = journalId;
+    this.entryId = entryId;
     this.entry = this.journalService.getEntryById(journalId, entryId);
 
 
     this.editEntryForm =  this.fb.group({
-      entryContent: ['', Validators.required]
+      entryContent: [this.entry.body, Validators.required],
+      datePicker: [this.entry.date, Validators.required],
+      title: [this.entry.title, Validators.required]
     });
+
+    this.datePickerDate = new FormControl(this.entry.date);
     
   }
 
@@ -62,5 +73,23 @@ export class EntryDetailComponent implements OnInit {
       },
     ]
   };
+
+
+  saveEntry() {
+    this.editEntryForm.markAllAsTouched();
+    if(this.editEntryForm.status === "VALID") {
+      const editedEntry:Entries = {
+        title: this.editEntryForm.value.title,
+        date: this.editEntryForm.value.datePicker,
+        body: this.editEntryForm.value.entryContent,
+        id: this.entry.id
+      }
+
+      const updatedEntry = this.journalService.updateEntryById(this.journalId, this.entryId, editedEntry);
+      this.entry = updatedEntry;
+      this.editMode = !this.editMode;
+    }
+
+  }
 
 }

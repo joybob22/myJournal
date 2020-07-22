@@ -32,6 +32,16 @@
                 color: $darkBlue;
             }
         }
+
+        .datePicker {
+        }
+    }
+
+    .saveButton {
+        width: 100%;
+        margin-top: 20px;
+        border: 1px solid $blue;
+        color: $blue;
     }
 
 }

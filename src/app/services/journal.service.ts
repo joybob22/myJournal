@@ -161,6 +161,20 @@ export class JournalService {
     })[0];
   }
 
+  updateEntryById(journalId:string, entryId:string, editedEntry:Entries):Entries {
+    this.journals.forEach(journal => {
+      if(journal.id === journalId) {
+        journal.entries.forEach(entry => {
+          if(entry.id === entryId) {
+            entry = editedEntry;
+            return;
+          }
+        });
+      }
+    });
+    return editedEntry;
+  }
+
 
 
   get imagesArray() {
