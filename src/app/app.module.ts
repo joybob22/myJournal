@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
+import { QuillModule } from 'ngx-quill';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
@@ -38,6 +39,7 @@ import { EntryDetailComponent } from './entry-detail/entry-detail.component';
     AngularEditorModule,
     ReactiveFormsModule,
     MatInputModule,
+    QuillModule.forRoot(),
     MatFormFieldModule,
     MatButtonModule,
     MatDatepickerModule,

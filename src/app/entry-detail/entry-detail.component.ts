@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { JournalService } from '../services/journal.service';
 import { Entries } from '../models/entries.model';
+import { EditorChangeContent, EditorChangeSelection, QuillEditorComponent, ContentChange } from 'ngx-quill';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -20,12 +23,19 @@ export class EntryDetailComponent implements OnInit {
   entry:Entries;
   editMode: boolean = false;
   datePickerDate;
+  hide = false
+  form: FormGroup
 
   constructor(
     private fb: FormBuilder,
     private _route: ActivatedRoute,
-    private journalService: JournalService
-  ) { }
+    private journalService: JournalService,
+    private sanitizer: DomSanitizer
+  ) {
+    this.form = fb.group({
+      editor: ['<ol><li>test</li><li>123</li></ol>']
+    })
+  }
 
   ngOnInit(): void {
     const journalId = this._route.snapshot.params['id'];
@@ -42,42 +52,13 @@ export class EntryDetailComponent implements OnInit {
     });
 
     this.datePickerDate = new FormControl(this.entry.date);
-    
   }
-
-  config: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: '30rem',
-    minHeight: '5rem',
-    placeholder: 'Start typing here',
-    translate: 'no',
-    defaultParagraphSeparator: 'p',
-    defaultFontName: 'Arial',
-    toolbarHiddenButtons: [
-      ['bold']
-      ],
-    customClasses: [
-      {
-        name: "quote",
-        class: "quote",
-      },
-      {
-        name: 'redText',
-        class: 'redText'
-      },
-      {
-        name: "titleText",
-        class: "titleText",
-        tag: "h1",
-      },
-    ]
-  };
 
 
   saveEntry() {
     this.editEntryForm.markAllAsTouched();
     if(this.editEntryForm.status === "VALID") {
+      console.log(this.editEntryForm.value.entryContent);
       const editedEntry:Entries = {
         title: this.editEntryForm.value.title,
         date: this.editEntryForm.value.datePicker,
@@ -91,5 +72,11 @@ export class EntryDetailComponent implements OnInit {
     }
 
   }
+  
+  byPassHTML(html: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(html)
+  }
+
+
 
 }

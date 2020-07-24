@@ -23,10 +23,15 @@
         </div>
         <i *ngIf="!editMode" (click)="editMode = !editMode" title="Edit" class="fas fa-pencil-alt"></i>
     </div>
-    <p *ngIf="!editMode" [innerHTML]="entry.body"></p>
-    <p>{{entry.body}}</p>
+    <quill-view-html *ngIf="!editMode" [content]="entry.body"></quill-view-html>
     <div *ngIf="editMode">
-        <angular-editor formControlName="entryContent" [config]="config"></angular-editor>
-        <button mat-stroked-button class="saveButton" (click)="saveEntry()">Save</button>
+      <h1>Edit Mode</h1>
+      <p>Click save to save progress</p>
+      <quill-editor
+        #editor [styles]="{height: '50vh'}"
+        formControlName="entryContent">
+      </quill-editor>
+      <button mat-stroked-button class="saveButton" (click)="saveEntry()">Save</button>
     </div>
+    
 </div>
