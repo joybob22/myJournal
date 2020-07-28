@@ -15,6 +15,7 @@ export class JournalDetailComponent implements OnInit {
 
   journalId:string;
   journal:Journal;
+  entryStrippedTags: string;
   editMode:boolean = false;
   tags: Array<string>;
   newTagForm: FormGroup;

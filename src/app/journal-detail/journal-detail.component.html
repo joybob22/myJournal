@@ -15,7 +15,7 @@
             <div *ngFor="let entry of journal.entries" class="entryContainer" [routerLink]="[entry.id]">
                 <h1>{{entry.title}}</h1>
                 <p>{{entry.date | date}}</p>
-                <p>{{entry.body | slice:0:20}}...</p>
+                <p>{{entry.body | stripTagsAndSlice}}...</p>
             </div>
             
         </div>

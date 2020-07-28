@@ -22,6 +22,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { JournalDetailComponent } from './journal-detail/journal-detail.component';
 import { EntryDetailComponent } from './entry-detail/entry-detail.component';
+import { StripTagsAndSlicePipe } from './pipes/strip-tags-and-slice.pipe';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { EntryDetailComponent } from './entry-detail/entry-detail.component';
     LoginComponent,
     DashboardComponent,
     JournalDetailComponent,
-    EntryDetailComponent
+    EntryDetailComponent,
+    StripTagsAndSlicePipe
   ],
   imports: [
     BrowserModule,

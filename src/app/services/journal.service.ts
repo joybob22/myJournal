@@ -9,8 +9,8 @@ export class JournalService {
 
   constructor() { }
 
-  get journals() {
-    return [
+  journals: Array<Journal> =
+     [
       {
         title: 'My First Journal',
         id: '0',
@@ -20,19 +20,22 @@ export class JournalService {
             title: 'Day 1',
             date: new Date(),
             body: 'Stuff happened bro',
-            id: '0'
+            id: '0',
+            selectedTags: ['Gratitude', 'The Grind']
           },
           {
             title: 'Day 2',
             date: new Date(),
             body: 'Stuff happened bro',
-            id: '1'
+            id: '1',
+            selectedTags: ['Gratitude', 'The Grind']
           },
           {
             title: 'Day 3',
             date: new Date(),
             body: 'Stuff happened bro',
-            id: '2'
+            id: '2',
+            selectedTags: ['Gratitude', 'The Grind']
           },
         ]
       },
@@ -45,19 +48,22 @@ export class JournalService {
           title: 'Day 1',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '0'
+          id: '0',
+          selectedTags: ['Gratitude', 'The Grind']
         },
         {
           title: 'Day 2',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '1'
+          id: '1',
+          selectedTags: ['Gratitude', 'The Grind']
         },
         {
           title: 'Day 3',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '2'
+          id: '2',
+          selectedTags: ['Gratitude', 'The Grind']
         },
       ]
     },
@@ -70,19 +76,22 @@ export class JournalService {
           title: 'Day 1',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '0'
+          id: '0',
+          selectedTags: ['Gratitude', 'The Grind']
         },
         {
           title: 'Day 2',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '1'
+          id: '1',
+          selectedTags: ['Gratitude', 'The Grind']
         },
         {
           title: 'Day 3',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '2'
+          id: '2',
+          selectedTags: ['Gratitude', 'The Grind']
         },
       ]
     },
@@ -95,19 +104,22 @@ export class JournalService {
           title: 'Day 1',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '0'
+          id: '0',
+          selectedTags: ['Gratitude', 'The Grind']
         },
         {
           title: 'Day 2',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '1'
+          id: '1',
+          selectedTags: ['Gratitude', 'The Grind']
         },
         {
           title: 'Day 3',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '2'
+          id: '2',
+          selectedTags: ['Gratitude', 'The Grind']
         },
       ]
     },
@@ -120,24 +132,26 @@ export class JournalService {
           title: 'Day 1',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '0'
+          id: '0',
+          selectedTags: ['Gratitude', 'The Grind']
         },
         {
           title: 'Day 2',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '1'
+          id: '1',
+          selectedTags: ['Gratitude', 'The Grind']
         },
         {
           title: 'Day 3',
           date: new Date(),
           body: 'Stuff happened bro',
-          id: '2'
+          id: '2',
+          selectedTags: ['Gratitude', 'The Grind']
         },
       ]
     }
   ]
-  }
 
   getJournalById(id:string):Journal {
     let theJournal = this.journals.filter(journal => {
@@ -148,6 +162,18 @@ export class JournalService {
       }
     })[0];
     return theJournal
+  }
+
+  getJournalTitleById(id:string):string {
+    let theJournal = this.journals.filter(journal => {
+      if(journal.id === id) {
+        return true;
+      } else {
+        return false;
+      }
+    })[0];
+
+    return theJournal.title;
   }
 
   getEntryById(journalId:string, entryId:string):Entries {
@@ -162,17 +188,31 @@ export class JournalService {
   }
 
   updateEntryById(journalId:string, entryId:string, editedEntry:Entries):Entries {
-    this.journals.forEach(journal => {
+    this.journals.map(journal => {
       if(journal.id === journalId) {
-        journal.entries.forEach(entry => {
+        journal.entries.map((entry, index) => {
           if(entry.id === entryId) {
-            entry = editedEntry;
-            return;
+            journal.entries[index] = editedEntry;
           }
         });
       }
     });
     return editedEntry;
+  }
+
+  updateSelectedTags(journalId:string, entryId:string, selectedTags:Array<string>):Array<string> {
+    this.journals.map(journal => {
+      if(journal.id === journalId) {
+        journal.entries.map(entry => {
+          if(entry.id === entryId) {
+            entry.selectedTags = selectedTags;
+            return;
+          }
+        });
+      }
+    });
+    console.log(this.journals);
+    return selectedTags;
   }
 
 

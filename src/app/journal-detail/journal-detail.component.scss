@@ -135,33 +135,6 @@ h1 {
         }
 
         .tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-
-            .tag {
-                padding: 5px 10px;
-                border: 1px solid #708090;
-                border-radius: 5px;
-                margin: 5px;
-                transition: all 0.2s;
-
-                &:hover {
-                    background-color: #708090;
-                    color: white;
-                    cursor: pointer;
-                }
-
-            }
-
-            .activeTag {
-                background-color: #708090;
-                color: white;
-
-                &:hover {
-                    background-color: #56636f;
-                }
-            }
 
             .editTagMode {
                 border: 1px solid #994C4C;

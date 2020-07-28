@@ -2,24 +2,53 @@
 
 #entryDetailContainer {
     width: 70%;
-    margin: 20px auto;
+    margin: 0 auto;
     min-width: 700px;
+
+    .nav {
+        display: flex;
+        margin: 10px 0;
+
+        a {
+            color: $blue;
+            cursor: pointer;
+            padding: 0 5px;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .headerContainer {
+        padding: 30px 10px;
+        margin-bottom: 20px;
+        background-color: rgba(0,0,0,0.04);
+
+        
+    }
 
     .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: 30px 0 50px 0;
+        
         
         h1 {
             color: $blue;
             font-size: 3em;
             font-weight: 100;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         p {
             color: $blue;
+            font-style: italic;
+        }
+
+        .headerp {
+            margin-bottom: 15px;
         }
 
         i {
@@ -33,7 +62,31 @@
             }
         }
 
+        .titleInput {
+            width: 100%;
+        }
+
+        
+
         .datePicker {
+        }
+
+        .rightHeader {
+            width: 40%;
+        }
+
+        h2 {
+            color: $blue;
+            font-family: Roboto;
+            font-weight: 100;
+            font-size: 2em;
+        }
+
+        .tagDivider {
+            width: 20%;
+            background-color: $blue;
+            margin: 15px 0;
+            height: 1px;
         }
     }
 

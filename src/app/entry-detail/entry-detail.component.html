@@ -1,34 +1,52 @@
 <div id="entryDetailContainer" [formGroup]="editEntryForm">
-    <div class="header">
-        <!-- Not in edit mode header -->
-        <div *ngIf="!editMode" class="leftHeader">
-            <h1>{{entry.title}}</h1>
-            <p>{{entry.date | date}}</p>
+    <!-- Not in edit mode header -->
+    <div class="nav">
+        <a routerLink="../../../dashboard">> My Journals</a>
+        <a [routerLink]="['../../' + journalId]">> {{journalTitle}}</a>
+    </div>
+    <div class="headerContainer">
+        
+        <div class="header" *ngIf="!editMode">
+            <div class="leftHeader">
+                <h1>{{entry.title}}</h1>
+                <p>{{entry.date | date}}</p>
+            </div>
+            
+            <i (click)="editMode = !editMode" title="Edit" class="fas fa-pencil-alt"></i>
         </div>
         <!-- Edit mode header -->
-        <div *ngIf="editMode" class="leftHeader">
-            <mat-form-field>
-                <mat-label>Title</mat-label>
-                <input matInput formControlName="title">
-                <mat-error>Must have a title</mat-error>
-            </mat-form-field>
-            <div class="datePicker">
-                <mat-form-field color="primary" appearance="fill">
-                    <mat-label>Date</mat-label>
-                    <input matInput [matDatepicker]="picker2" [formControl]="datePickerDate" formControlName="datePicker">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker [startAt]="entry.date" #picker2 color="primary"></mat-datepicker>
-                  </mat-form-field>
+        <div class="header" *ngIf="editMode">
+            <div  class="leftHeader">
+                <h1>Edit:</h1>
+                <p class="headerp">Don't forget to click the save button!</p>
+                <mat-form-field class="titleInput">
+                    <mat-label>Title</mat-label>
+                    <input matInput formControlName="title">
+                    <mat-error>Must have a title</mat-error>
+                </mat-form-field>
+                <div class="datePicker">
+                    <mat-form-field color="primary" appearance="fill">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="picker2" [formControl]="datePickerDate" formControlName="datePicker">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker [startAt]="entry.date" #picker2 color="primary"></mat-datepicker>
+                      </mat-form-field>
+                </div>
+            </div>
+            <div class="rightHeader">
+                <h2>Tags</h2>
+                <div class="tagDivider"></div>
+                <div class="tags">
+                    <div *ngIf="tags.length === 0">Looks like you don't have any tags.</div>
+                    <div class="tag" *ngFor="let tag of tags" (click)="updateSelectedTags(tag)" [ngClass]="{'activeTag': entry.selectedTags.includes(tag)}">{{tag}}</div>
+                </div>
             </div>
         </div>
-        <i *ngIf="!editMode" (click)="editMode = !editMode" title="Edit" class="fas fa-pencil-alt"></i>
     </div>
     <quill-view-html *ngIf="!editMode" [content]="entry.body"></quill-view-html>
     <div *ngIf="editMode">
-      <h1>Edit Mode</h1>
-      <p>Click save to save progress</p>
       <quill-editor
-        #editor [styles]="{height: '50vh'}"
+        #editor [styles]="{height: '45vh'}"
         formControlName="entryContent">
       </quill-editor>
       <button mat-stroked-button class="saveButton" (click)="saveEntry()">Save</button>

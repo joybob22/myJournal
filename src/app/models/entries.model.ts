@@ -3,4 +3,5 @@ export interface Entries {
     date: Date;
     body: string;
     id: string;
+    selectedTags: Array<string>
 }

@@ -1,4 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    .tag {
+        padding: 5px 10px;
+        border: 1px solid #708090;
+        border-radius: 5px;
+        margin: 5px;
+        transition: all 0.2s;
+        color: #708090;
+
+        &:hover {
+            background-color: #708090;
+            color: white;
+            cursor: pointer;
+        }
+
+    }
+
+    .activeTag {
+        background-color: #708090;
+        color: white;
+
+        &:hover {
+            background-color: #56636f;
+        }
+    }
+}
