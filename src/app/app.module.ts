@@ -10,19 +10,22 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
 import { QuillModule } from 'ngx-quill';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { JournalDetailComponent } from './journal-detail/journal-detail.component';
-import { EntryDetailComponent } from './entry-detail/entry-detail.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { JournalDetailComponent } from './components/journal-detail/journal-detail.component';
+import { EntryDetailComponent } from './components/entry-detail/entry-detail.component';
 import { StripTagsAndSlicePipe } from './pipes/strip-tags-and-slice.pipe';
+import { ImagePickerModalComponent } from './components/image-picker-modal/image-picker-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { StripTagsAndSlicePipe } from './pipes/strip-tags-and-slice.pipe';
     DashboardComponent,
     JournalDetailComponent,
     EntryDetailComponent,
-    StripTagsAndSlicePipe
+    StripTagsAndSlicePipe,
+    ImagePickerModalComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +44,8 @@ import { StripTagsAndSlicePipe } from './pipes/strip-tags-and-slice.pipe';
     BrowserAnimationsModule,
     AngularEditorModule,
     ReactiveFormsModule,
+    MatSelectModule,
+    MatDialogModule,
     MatInputModule,
     QuillModule.forRoot(),
     MatFormFieldModule,

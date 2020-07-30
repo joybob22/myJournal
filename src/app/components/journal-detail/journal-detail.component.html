@@ -1,20 +1,45 @@
 <div id="journalDetailContainer">
     <div id="journalNav">
-        <p [routerLink]="['../../dashboard']">> My Journals</p>
+        <p [routerLink]="['../../dashboard']">My Journals</p>
+        <div class="leftNavItems">
+            <a *ngIf="!editMode" (click)="handleEditClick()">Edit</a>
+            <a *ngIf="editMode" (click)="handleEditClick()">Close Edit Mode</a>
+            <a>Donate</a>
+            <a>Sign out</a>
+        </div>
     </div>
     <div id="journalDetailBody">
         <div id="leftSide">
-            <div id="journalHeader">
+            <div *ngIf="!editMode" id="journalHeader">
                 <h1>{{journal.title}}</h1>
+            </div>
+            <div *ngIf="editMode" id="journalHeaderEdit">
+                <div class="formContainer">
+                    <div class="formRow1" [formGroup]="editJournalTitleForm">
+                        <mat-form-field>
+                            <input matInput placeholder="Title" formControlName="title">
+                            <mat-error>Please enter a title</mat-error>
+                        </mat-form-field>
+                        <button (click)="updateJournalTitle()" class="updateButton" mat-stroked-button>Update</button>
+                    </div>
+                    <div class="formRow2">
+                        <button mat-stroked-button (click)="openDialog()">Change Display Image</button>
+                    </div>
+
+                </div>
+                
+                
             </div>
             <div class="entryHeaders">
                 <p>Title</p>
                 <p>Date</p>
+                <p>Last Edit</p>
                 <p>Content</p>
             </div>
             <div *ngFor="let entry of journal.entries" class="entryContainer" [routerLink]="[entry.id]">
                 <h1>{{entry.title}}</h1>
                 <p>{{entry.date | date}}</p>
+                <p>{{entry.lastEdit | date}}</p>
                 <p>{{entry.body | stripTagsAndSlice}}...</p>
             </div>
             
@@ -23,7 +48,6 @@
             <div id="tagContainer">
                 <div id="tagHead">
                     <h1>Tags</h1>
-                    <i class="fas fa-pencil-alt" (click)="handleEditClick()"></i>
                 </div>
                 <div class="divider"></div>
                 <div class="createTagForm" [ngClass]="{'showTagForm': editMode}" [formGroup]="newTagForm">

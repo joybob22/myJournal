@@ -21,21 +21,24 @@ export class JournalService {
             date: new Date(),
             body: 'Stuff happened bro',
             id: '0',
-            selectedTags: ['Gratitude', 'The Grind']
+            selectedTags: ['Gratitude', 'The Grind'],
+            lastEdit: new Date('April 20, 2020 09:22:12')
           },
           {
             title: 'Day 2',
             date: new Date(),
             body: 'Stuff happened bro',
             id: '1',
-            selectedTags: ['Gratitude', 'The Grind']
+            selectedTags: ['Gratitude', 'The Grind'],
+            lastEdit: new Date('April 20, 2020 09:22:12')
           },
           {
             title: 'Day 3',
             date: new Date(),
             body: 'Stuff happened bro',
             id: '2',
-            selectedTags: ['Gratitude', 'The Grind']
+            selectedTags: ['Gratitude', 'The Grind'],
+            lastEdit: new Date('April 20, 2020 09:22:12')
           },
         ]
       },
@@ -49,21 +52,24 @@ export class JournalService {
           date: new Date(),
           body: 'Stuff happened bro',
           id: '0',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 20, 2020 09:22:12')
         },
         {
           title: 'Day 2',
           date: new Date(),
           body: 'Stuff happened bro',
           id: '1',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 20, 2020 09:22:12')
         },
         {
           title: 'Day 3',
           date: new Date(),
           body: 'Stuff happened bro',
           id: '2',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 20, 2020 09:22:12')
         },
       ]
     },
@@ -77,21 +83,24 @@ export class JournalService {
           date: new Date(),
           body: 'Stuff happened bro',
           id: '0',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 20, 2020 09:22:12')
         },
         {
           title: 'Day 2',
           date: new Date(),
           body: 'Stuff happened bro',
           id: '1',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 20, 2020 09:22:12')
         },
         {
           title: 'Day 3',
           date: new Date(),
           body: 'Stuff happened bro',
           id: '2',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 20, 2020 09:22:12')
         },
       ]
     },
@@ -105,21 +114,24 @@ export class JournalService {
           date: new Date(),
           body: 'Stuff happened bro',
           id: '0',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 20, 2020 09:22:12')
         },
         {
           title: 'Day 2',
           date: new Date(),
           body: 'Stuff happened bro',
           id: '1',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 20, 2020 09:22:12')
         },
         {
           title: 'Day 3',
           date: new Date(),
           body: 'Stuff happened bro',
           id: '2',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 20, 2020 09:22:12')
         },
       ]
     },
@@ -133,21 +145,24 @@ export class JournalService {
           date: new Date(),
           body: 'Stuff happened bro',
           id: '0',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 20, 2020 09:22:12')
         },
         {
           title: 'Day 2',
           date: new Date(),
           body: 'Stuff happened bro',
           id: '1',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date('April 30, 2020 09:22:12')
         },
         {
           title: 'Day 3',
           date: new Date(),
           body: 'Stuff happened bro',
           id: '2',
-          selectedTags: ['Gratitude', 'The Grind']
+          selectedTags: ['Gratitude', 'The Grind'],
+          lastEdit: new Date()
         },
       ]
     }
@@ -174,6 +189,15 @@ export class JournalService {
     })[0];
 
     return theJournal.title;
+  }
+
+  updateJournalTitleById(id:string, newTitle:string):string {
+    this.journals.map(journal => {
+      if(journal.id === id) {
+        journal.title = newTitle
+      }
+    });
+    return newTitle;
   }
 
   getEntryById(journalId:string, entryId:string):Entries {
@@ -213,6 +237,14 @@ export class JournalService {
     });
     console.log(this.journals);
     return selectedTags;
+  }
+
+  updateDisplayImage(journalId: string, imageIndex) {
+    this.journals.map(journal => {
+      if(journal.id === journalId) {
+        journal.img = this.imagesArray[imageIndex];
+      }
+    })
   }
 
 

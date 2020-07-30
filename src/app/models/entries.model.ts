@@ -3,5 +3,6 @@ export interface Entries {
     date: Date;
     body: string;
     id: string;
-    selectedTags: Array<string>
+    selectedTags: Array<string>;
+    lastEdit: Date;
 }

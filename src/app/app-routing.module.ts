@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AuthGuard } from './gaurds/auth.guard';
-import { JournalDetailComponent } from './journal-detail/journal-detail.component';
-import { EntryDetailComponent } from './entry-detail/entry-detail.component';
+import { JournalDetailComponent } from './components/journal-detail/journal-detail.component';
+import { EntryDetailComponent } from './components/entry-detail/entry-detail.component';
 
 
 const routes: Routes = [

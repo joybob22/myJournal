@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { JournalService } from '../services/journal.service';
-import { Entries } from '../models/entries.model';
+import { JournalService } from '../../services/journal.service';
+import { Entries } from '../../models/entries.model';
 import { EditorChangeContent, EditorChangeSelection, QuillEditorComponent, ContentChange } from 'ngx-quill';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
-import { TagsService } from '../services/tags.service';
+import { TagsService } from '../../services/tags.service';
 
 
 @Component({
@@ -89,7 +89,8 @@ export class EntryDetailComponent implements OnInit {
         date: this.editEntryForm.value.datePicker,
         body: this.editEntryForm.value.entryContent,
         id: this.entry.id,
-        selectedTags: this.entry.selectedTags
+        selectedTags: this.entry.selectedTags,
+        lastEdit: new Date()
       }
 
       const updatedEntry = this.journalService.updateEntryById(this.journalId, this.entryId, editedEntry);

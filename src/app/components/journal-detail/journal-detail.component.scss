@@ -1,3 +1,5 @@
+@import "../../app.component.scss";
+
 html,body, h1, h2, h3, h4, h5, h6, p, div {
     margin: 0;
     padding: 0;
@@ -15,10 +17,29 @@ h1 {
     padding: 20px;
     color: #708090;
 
+    #journalNav {
+        
+        width: 70%;
+        margin: 0 auto;
+        min-width: 700px;
+        border-bottom: 1px solid $blue;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+
+        .leftNavItems a {
+            padding-left: 15px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
     #journalNav p {
         &:hover {
             cursor: pointer;
-            text-decoration: underline;
         }
         &:focus {
             outline: 0;
@@ -40,13 +61,38 @@ h1 {
             margin: 20px 0;
         }
     }
+
+    #journalHeaderEdit {
+        display: flex;
+        justify-content: center;
+
+        .formContainer {
+            background-color: #f6f6f6;
+            padding: 30px 15px;
+            margin: 15px 0;
+            
+        }
+
+        .formRow1 {
+            button {
+                margin-left: 20px;
+            }
+        }
+
+        .formRow2 {
+            button {
+
+                width: 100%;
+            }
+        }
+    }
 }
 
 .entryHeaders {
     padding: 5px 15px;
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     font-weight: 100;
 }
 
@@ -57,7 +103,7 @@ h1 {
     // justify-content: flex-start;
     // align-items: flex-end;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     background-color: #f6f6f6;
     transition: all 0.2s;
     margin-bottom: 10px;
@@ -142,6 +188,7 @@ h1 {
                 background-color: transparent;
                 &:hover {
                     background-color: #994C4C;
+                    color: #f6f6f6;
                 }
             }
         }

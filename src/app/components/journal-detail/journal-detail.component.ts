@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { JournalService } from '../services/journal.service';
-import { Journal } from '../models/journal.model';
-import { TagsService } from '../services/tags.service';
+import { JournalService } from '../../services/journal.service';
+import { Journal } from '../../models/journal.model';
+import { TagsService } from '../../services/tags.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Renderer2 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ImagePickerModalComponent } from '../image-picker-modal/image-picker-modal.component';
 
 @Component({
   selector: 'app-journal-detail',
@@ -19,6 +21,8 @@ export class JournalDetailComponent implements OnInit {
   editMode:boolean = false;
   tags: Array<string>;
   newTagForm: FormGroup;
+  imagesArray;
+  editJournalTitleForm: FormGroup;
   newTagName: string;
   selectedTags: Array<string> = [];
 
@@ -27,15 +31,20 @@ export class JournalDetailComponent implements OnInit {
     private journalService: JournalService,
     private tagsService: TagsService,
     private fb: FormBuilder,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.journalId = this._route.snapshot.params['id'];
     this.journal = this.journalService.getJournalById(this.journalId);
     this.tags = this.tagsService.getTags;
+    this.imagesArray = this.journalService.imagesArray;
     this.newTagForm = this.fb.group({
       tagName: ['', Validators.required]
+    });
+    this.editJournalTitleForm = this.fb.group({
+      title: [this.journal.title, Validators.required]
     });
   }
 
@@ -58,6 +67,14 @@ export class JournalDetailComponent implements OnInit {
     }
   }
 
+  updateJournalTitle() {
+    this.editJournalTitleForm.markAllAsTouched();
+    if(this.editJournalTitleForm.status === "VALID" && this.editJournalTitleForm.value.title !== this.journal.title) {
+      this.journal.title = this.journalService.updateJournalTitleById(this.journalId, this.editJournalTitleForm.value.title);
+      this.editMode = !this.editMode
+    }
+  }
+
   handleTagClick(tag, event) {
     if(this.editMode) {
       this.tagsService.removeTag(tag);
@@ -76,6 +93,14 @@ export class JournalDetailComponent implements OnInit {
         this.renderer.addClass(event.target, "activeTag");
       }
     }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ImagePickerModalComponent, {
+      width: '70%',
+      height: '700px',
+      data: {journalId: this.journalId}
+    });
   }
 
 

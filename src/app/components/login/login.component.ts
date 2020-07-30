@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { ValidatePassword } from '../validators/password.validator';
-import { matchingPasswords } from '../validators/passwordSame.validator';
-import { AuthService } from '../services/auth.service';
+import { ValidatePassword } from '../../validators/password.validator';
+import { matchingPasswords } from '../../validators/passwordSame.validator';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',

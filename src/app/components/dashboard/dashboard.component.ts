@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { JournalService } from '../services/journal.service';
+import { JournalService } from '../../services/journal.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Journal } from '../models/journal.model';
+import { Journal } from '../../models/journal.model';
 
 @Component({
   selector: 'app-dashboard',

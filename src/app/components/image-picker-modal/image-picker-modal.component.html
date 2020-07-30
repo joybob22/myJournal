@@ -1,0 +1,7 @@
+<div id="modalContainer">
+    <h1>Select an Image</h1>
+    <div id="imagesContainer">
+        <div *ngFor="let image of imagesArray; let i = index" class="image" [style.backgroundImage]="'url(../../../assets/displayImages/' + image + ')'" (click)="onImageClick(i)"></div>
+    </div>
+</div>
+
