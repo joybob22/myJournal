@@ -17,8 +17,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         color: #708090;
 
         &:hover {
-            background-color: #708090;
-            color: white;
+            background-color: rgba(0,0,0,0.035);
+            // color: white;
             cursor: pointer;
         }
 

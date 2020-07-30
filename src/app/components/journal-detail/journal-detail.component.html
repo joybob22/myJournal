@@ -22,8 +22,11 @@
                         </mat-form-field>
                         <button (click)="updateJournalTitle()" class="updateButton" mat-stroked-button>Update</button>
                     </div>
-                    <div class="formRow2">
+                    <div class="fullButton">
                         <button mat-stroked-button (click)="openDialog()">Change Display Image</button>
+                    </div>
+                    <div class="fullButton deleteButton">
+                        <button mat-stroked-button (click)="openDeleteJournalModal()" color="warn">Delete Journal</button>
                     </div>
 
                 </div>

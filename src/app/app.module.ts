@@ -26,6 +26,7 @@ import { JournalDetailComponent } from './components/journal-detail/journal-deta
 import { EntryDetailComponent } from './components/entry-detail/entry-detail.component';
 import { StripTagsAndSlicePipe } from './pipes/strip-tags-and-slice.pipe';
 import { ImagePickerModalComponent } from './components/image-picker-modal/image-picker-modal.component';
+import { DeleteJournalModalComponent } from './components/delete-journal-modal/delete-journal-modal.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ImagePickerModalComponent } from './components/image-picker-modal/image
     JournalDetailComponent,
     EntryDetailComponent,
     StripTagsAndSlicePipe,
-    ImagePickerModalComponent
+    ImagePickerModalComponent,
+    DeleteJournalModalComponent
   ],
   imports: [
     BrowserModule,

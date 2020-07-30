@@ -79,11 +79,15 @@ h1 {
             }
         }
 
-        .formRow2 {
+        .fullButton {
             button {
 
                 width: 100%;
             }
+        }
+
+        .deleteButton {
+            margin-top: 10px;
         }
     }
 }
@@ -177,18 +181,17 @@ h1 {
         .showTagDivider {
             display: block;
             margin-bottom: 10px;
-            color: #994C4C;
+            color: #f44336;
         }
 
         .tags {
 
             .editTagMode {
-                border: 1px solid #994C4C;
-                color: #994C4C;
+                border: 1px solid rgba(0,0,0,0.2);
+                color: #f44336;
                 background-color: transparent;
                 &:hover {
-                    background-color: #994C4C;
-                    color: #f6f6f6;
+                    background-color: rgba(255, 0, 0, 0.035);
                 }
             }
         }

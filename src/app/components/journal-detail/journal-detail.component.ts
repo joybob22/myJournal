@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Renderer2 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ImagePickerModalComponent } from '../image-picker-modal/image-picker-modal.component';
+import { DeleteJournalModalComponent } from '../delete-journal-modal/delete-journal-modal.component';
 
 @Component({
   selector: 'app-journal-detail',
@@ -101,6 +102,13 @@ export class JournalDetailComponent implements OnInit {
       height: '700px',
       data: {journalId: this.journalId}
     });
+  }
+
+  openDeleteJournalModal():void {
+    const dialogRef = this.dialog.open(DeleteJournalModalComponent, {
+      width: '400px',
+      data: {journalId: this.journalId, journalTitle: this.journal.title}
+    })
   }
 
 

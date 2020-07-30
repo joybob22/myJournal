@@ -247,6 +247,15 @@ export class JournalService {
     })
   }
 
+  deleteJournalById(journalId:string) {
+    this.journals = this.journals.filter(journal => {
+      if(journal.id === journalId) {
+        return false;
+      }
+      return true;
+    });
+  }
+
 
 
   get imagesArray() {

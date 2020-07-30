@@ -1,0 +1,12 @@
+<div id="deleteWrapper">
+    <h1>Are you sure?</h1>
+    <p>If you are okay with this journal and all the entries inside of it being deleted with no way of retrieving it afterwards please type the journal name(<strong>{{data.journalTitle}}</strong>) below and select 'Delete Journal'</p>
+    <div class="form" [formGroup]="deleteJournalForm">
+        <mat-form-field>
+            <input matInput placeholder="Journal Name" formControlName="title">
+            <mat-error>Must type in the journal name to delete</mat-error>
+        </mat-form-field>
+        <button (click)="deleteJournal()" class="btn" mat-stroked-button color="warn">Delete Journal</button>
+    </div>
+    <mat-error *ngIf="deleteJournalForm.hasError('inputMatch')">Journal name does not match</mat-error>
+</div>
