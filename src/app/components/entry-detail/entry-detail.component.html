@@ -1,8 +1,17 @@
 <div id="entryDetailContainer" [formGroup]="editEntryForm">
     <!-- Not in edit mode header -->
     <div class="nav">
-        <a routerLink="../../../dashboard">> My Journals</a>
-        <a [routerLink]="['../../' + journalId]">> {{journalTitle}}</a>
+        <div class="leftNav">
+            <a routerLink="../../../dashboard">My Journals</a>
+            <span>></span>
+            <a [routerLink]="['../../' + journalId]">{{journalTitle}}</a>
+        </div>
+        <div class="rightNav">
+            <a *ngIf="!editMode" (click)="editMode = !editMode">Edit</a>
+            <a>Donate</a>
+            <a>Sign out</a>
+        </div>
+        
     </div>
     <div class="headerContainer">
         
@@ -12,7 +21,7 @@
                 <p>{{entry.date | date}}</p>
             </div>
             
-            <i (click)="editMode = !editMode" title="Edit" class="fas fa-pencil-alt"></i>
+            <!-- <i (click)="editMode = !editMode" title="Edit" class="fas fa-pencil-alt"></i> -->
         </div>
         <!-- Edit mode header -->
         <div class="header" *ngIf="editMode">

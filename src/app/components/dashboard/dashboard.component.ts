@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
   createNewJournal() {
     this.newJournalForm.markAllAsTouched();
     if(this.newJournalForm.status === "VALID") {
-      console.log(this.newJournalForm);
+      this.journalService.createNewJournal(this.newJournalForm.value.title);
     }
   }
 

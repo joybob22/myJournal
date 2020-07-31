@@ -8,11 +8,35 @@ import { Renderer2 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ImagePickerModalComponent } from '../image-picker-modal/image-picker-modal.component';
 import { DeleteJournalModalComponent } from '../delete-journal-modal/delete-journal-modal.component';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-journal-detail',
   templateUrl: './journal-detail.component.html',
-  styleUrls: ['./journal-detail.component.scss']
+  styleUrls: ['./journal-detail.component.scss'],
+  animations: [
+    trigger(
+      'slideDownReg', 
+      [
+        transition(
+          ':enter', 
+          [
+            style({ height: 0 }),
+            animate('0.5s ease-out', 
+                    style({ height: '225px' }))
+          ]
+        ),
+        transition(
+          ':leave', 
+          [
+            style({ height: '225px' }),
+            animate('0.5s ease-in', 
+                    style({ height: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class JournalDetailComponent implements OnInit {
 
@@ -26,6 +50,8 @@ export class JournalDetailComponent implements OnInit {
   editJournalTitleForm: FormGroup;
   newTagName: string;
   selectedTags: Array<string> = [];
+  showForm:boolean = false;
+  newEntryForm: FormGroup
 
   constructor(
     private _route: ActivatedRoute,
@@ -47,6 +73,26 @@ export class JournalDetailComponent implements OnInit {
     this.editJournalTitleForm = this.fb.group({
       title: [this.journal.title, Validators.required]
     });
+    this.newEntryForm = this.fb.group({
+      title: ['', Validators.required]
+    });
+  }
+
+  showAddNewEntryForm() {
+    document.getElementById("addNewJournalButton").classList.add('newJournalFormStyles');
+    this.showForm = true;
+  }
+
+  closeNewEntryForm() {
+    document.getElementById("addNewJournalButton").classList.remove('newJournalFormStyles');
+    this.showForm = false;
+  }
+  
+  createNewEntry() {
+    this.newEntryForm.markAllAsTouched();
+    if(this.newEntryForm.status === "VALID") {
+      this.journalService.createNewEntry(this.journalId, this.newEntryForm.value.title);
+    }
   }
 
   handleEditClick() {

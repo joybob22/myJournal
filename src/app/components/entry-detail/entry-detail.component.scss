@@ -7,16 +7,30 @@
 
     .nav {
         display: flex;
-        margin: 10px 0;
+        justify-content: space-between;
+        margin: 20px 0;
+        border-bottom: 1px solid $blue;
+        padding-bottom: 5px;
+
+        .leftNav {
+            display: flex;
+        }
+
+        span {
+            color: $blue;
+            padding-right: 5px;
+        }
 
         a {
             color: $blue;
             cursor: pointer;
-            padding: 0 5px;
+            padding: 0 5px 0 0;
             text-decoration: none;
+        }
 
-            &:hover {
-                text-decoration: underline;
+        .rightNav {
+            a {
+                padding: 0 0 0 10px;
             }
         }
     }

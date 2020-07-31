@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Journal } from '../models/journal.model';
 import { Entries } from '../models/entries.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JournalService {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   journals: Array<Journal> =
      [
@@ -45,7 +48,7 @@ export class JournalService {
       {
       title: 'The Mission',
       id: '1',
-      img: 'buildings-city-city-view-cityscape-597909.jpg',
+      img: 'man-wearing-face-mask-3942124.jpg',
       entries: [
         {
           title: 'Day 1',
@@ -76,7 +79,7 @@ export class JournalService {
     {
       title: 'Post Mission',
       id: '2',
-      img: 'time-lapse-photo-of-stars-on-night-924824.jpg',
+      img: 'hay-haystack-meditate-meditating-268013.jpg',
       entries: [
         {
           title: 'Day 1',
@@ -107,7 +110,7 @@ export class JournalService {
     {
       title: 'Pre Mission',
       id: '3',
-      img: 'barbells-on-gray-surface-669584.jpg',
+      img: 'beach-dawn-dusk-ocean-189349.jpg',
       entries: [
         {
           title: 'Day 1',
@@ -138,7 +141,7 @@ export class JournalService {
     {
       title: 'Gratitude',
       id: '4',
-      img: 'you-are-not-alone-quote-board-on-brown-wooden-frame-2821220.jpg',
+      img: 'man-using-barbell-2261482.jpg',
       entries: [
         {
           title: 'Day 1',
@@ -167,6 +170,47 @@ export class JournalService {
       ]
     }
   ]
+
+  createNewJournal(title:string) {
+    const newJournal:Journal = {
+      title: title,
+      id: (Number(this.journals[this.journals.length - 1].id) + 1).toString(),
+      img: this.imagesArray[Math.round(Math.random() * this.imagesArray.length - 1)],
+      entries: []
+    }
+
+    this.journals.push(newJournal);
+    this.router.navigate(['../journal/' + newJournal.id]);
+    
+  }
+
+  createNewEntry(journalId:string, entryTitle:string) {
+
+    let entryId;
+
+    this.journals.forEach(journal => {
+      if(journal.id === journalId) {
+        entryId = (journal.entries.length).toString()
+      }
+    })
+
+    const newEntry:Entries = {
+      title: entryTitle,
+      date: new Date(),
+      body: 'This is the start to your entry!',
+      id: entryId,
+      selectedTags: [],
+      lastEdit: new Date()
+    }
+
+    this.journals.map(journal => {
+      if(journal.id === journalId) {
+        journal.entries.push(newEntry);
+      }
+    });
+
+    this.router.navigate(['../../journal/' + journalId + '/' + entryId]);
+  }
 
   getJournalById(id:string):Journal {
     let theJournal = this.journals.filter(journal => {

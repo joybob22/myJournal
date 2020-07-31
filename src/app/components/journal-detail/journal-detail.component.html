@@ -13,7 +13,7 @@
             <div *ngIf="!editMode" id="journalHeader">
                 <h1>{{journal.title}}</h1>
             </div>
-            <div *ngIf="editMode" id="journalHeaderEdit">
+            <div *ngIf="editMode" [@slideDownReg] id="journalHeaderEdit">
                 <div class="formContainer">
                     <div class="formRow1" [formGroup]="editJournalTitleForm">
                         <mat-form-field>
@@ -33,7 +33,7 @@
                 
                 
             </div>
-            <div class="entryHeaders">
+            <div *ngIf="journal.entries.length !== 0" class="entryHeaders">
                 <p>Title</p>
                 <p>Date</p>
                 <p>Last Edit</p>
@@ -45,6 +45,7 @@
                 <p>{{entry.lastEdit | date}}</p>
                 <p>{{entry.body | stripTagsAndSlice}}...</p>
             </div>
+            <div *ngIf="journal.entries.length === 0" class="noEntriesContainer">Looks like you have no entries for this journal yet. Click the plus icon to create one!</div>
             
         </div>
         <div id="rightSide">
@@ -69,6 +70,16 @@
         </div>
     </div>
     
-    
+    <div id="addNewJournalButton" class="addNewJournalButton" (click)="showAddNewEntryForm()">
+        <div *ngIf="!showForm">+</div>
+        <div *ngIf="showForm" [formGroup]="newEntryForm">
+            <div class="closeButton" (click)="closeNewEntryForm();$event.stopPropagation()">Close</div>
+            <mat-form-field class="inputContainer">
+                <input formControlName="title" matInput placeholder="New Entry Name">
+                <mat-error>Please enter a name for your new journal</mat-error>
+            </mat-form-field>
+            <button (click)="createNewEntry()" mat-stroked-button>Create</button>
+        </div>
+    </div>
     
 </div>
