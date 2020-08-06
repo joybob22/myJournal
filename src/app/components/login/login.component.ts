@@ -112,11 +112,12 @@ export class LoginComponent implements OnInit {
     this.registerForm.markAllAsTouched();
     if(this.registerForm.status === "VALID") {
       this.showSpinner = true;
-      this.authService.registerUser(this.registerForm.value.email, this.registerForm.value.password).then((err) => {
+      this.authService.registerUser(this.registerForm.value.email, this.registerForm.value.password)
+      .then((err) => {
         if(err) {
           this.showSpinner = false;
           this.error = true;
-          this.errorMessage = err.message;
+          this.errorMessage = err;
         }
       });
     }
