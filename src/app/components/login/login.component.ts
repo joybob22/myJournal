@@ -117,7 +117,7 @@ export class LoginComponent implements OnInit {
         if(err) {
           this.showSpinner = false;
           this.error = true;
-          this.errorMessage = err;
+          this.errorMessage = err.message;
         }
       });
     }

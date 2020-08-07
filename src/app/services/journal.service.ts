@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Journal } from '../models/journal.model';
 import { Entries } from '../models/entries.model';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +11,12 @@ import { Router } from '@angular/router';
 export class JournalService {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private http:HttpClient,
+    private authService: AuthService
   ) { }
+
+  url = 'http://localhost:3000';
 
   journals: Array<Journal> =
      [
@@ -212,18 +218,44 @@ export class JournalService {
     this.router.navigate(['../../journal/' + journalId + '/' + entryId]);
   }
 
-  getJournalById(id:string):Journal {
-    let theJournal = this.journals.filter(journal => {
-      if(journal.id === id) {
-        return true;
-      } else {
-        return false;
-      }
-    })[0];
-    return theJournal
+  getAllJournals() {
+    return this.http.get(`${this.url}/allJournals`,{params: {uid: this.authService.user.uid}}).toPromise()
+      .then((data: any) => {
+        if(data[0].err) {
+          //do something for errors
+          return data;
+        } else {
+
+          return data;
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+  }
+
+  getJournalById(id:string) {
+    return this.http.get(`${this.url}/journalById`, {params: {uid: this.authService.user.uid, id: id}}).toPromise()
+      .then(data => {
+        return data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  
+  getEntriesById(id:string) {
+    return this.http.get(`${this.url}/entriesById`, {params: {uid: this.authService.user.uid, id: id}}).toPromise()
+      .then(data => {
+        console.log(data);
+        return data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   getJournalTitleById(id:string):string {
+    
     let theJournal = this.journals.filter(journal => {
       if(journal.id === id) {
         return true;

@@ -41,17 +41,18 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class JournalDetailComponent implements OnInit {
 
   journalId:string;
-  journal:Journal;
+  journal;
   entryStrippedTags: string;
   editMode:boolean = false;
-  tags: Array<string>;
+  tags;
   newTagForm: FormGroup;
   imagesArray;
   editJournalTitleForm: FormGroup;
   newTagName: string;
   selectedTags: Array<string> = [];
   showForm:boolean = false;
-  newEntryForm: FormGroup
+  newEntryForm: FormGroup;
+  entries;
 
   constructor(
     private _route: ActivatedRoute,
@@ -65,6 +66,7 @@ export class JournalDetailComponent implements OnInit {
   ngOnInit(): void {
     this.journalId = this._route.snapshot.params['id'];
     this.journal = this.journalService.getJournalById(this.journalId);
+    this.entries = this.journalService.getEntriesById(this.journalId);
     this.tags = this.tagsService.getTags;
     this.imagesArray = this.journalService.imagesArray;
     this.newTagForm = this.fb.group({

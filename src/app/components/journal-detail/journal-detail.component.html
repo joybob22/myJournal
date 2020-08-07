@@ -11,7 +11,7 @@
     <div id="journalDetailBody">
         <div id="leftSide">
             <div *ngIf="!editMode" id="journalHeader">
-                <h1>{{journal.title}}</h1>
+                <h1>{{(journal | async)?.title}}</h1>
             </div>
             <div *ngIf="editMode" [@slideDownReg] id="journalHeaderEdit">
                 <div class="formContainer">
@@ -33,19 +33,19 @@
                 
                 
             </div>
-            <div *ngIf="journal.entries.length !== 0" class="entryHeaders">
+            <div *ngIf="(entries | async)?.length !== 0" class="entryHeaders">
                 <p>Title</p>
                 <p>Date</p>
                 <p>Last Edit</p>
                 <p>Content</p>
             </div>
-            <div *ngFor="let entry of journal.entries" class="entryContainer" [routerLink]="[entry.id]">
+            <div *ngFor="let entry of entries | async" class="entryContainer" [routerLink]="[entry.id]">
                 <h1>{{entry.title}}</h1>
                 <p>{{entry.date | date}}</p>
                 <p>{{entry.lastEdit | date}}</p>
                 <p>{{entry.body | stripTagsAndSlice}}...</p>
             </div>
-            <div *ngIf="journal.entries.length === 0" class="noEntriesContainer">Looks like you have no entries for this journal yet. Click the plus icon to create one!</div>
+            <div *ngIf="(entries | async)?.length === 0" class="noEntriesContainer">Looks like you have no entries for this journal yet. Click the plus icon to create one!</div>
             
         </div>
         <div id="rightSide">
@@ -61,10 +61,10 @@
                     </mat-form-field>
                     <button mat-stroked-button class="submitButton" (click)="createNewTag()">Create Tag</button>
                 </div>
-                <div [ngClass]="{'showTagDivider': editMode}" class="noDisplay" *ngIf="tags.length !== 0">Click the tags below to remove them.</div>
+                <div [ngClass]="{'showTagDivider': editMode}" class="noDisplay" *ngIf="(tags | async)?.length !== 0">Click the tags below to remove them.</div>
                 <div class="tags">
-                    <div *ngFor="let tag of tags" class="tag" [ngClass]="{'editTagMode': editMode}" (click)="handleTagClick(tag, $event)">{{tag}}</div>
-                    <div *ngIf="tags.length === 0">Add tags to stay organized.</div>
+                    <div *ngFor="let tag of tags | async" class="tag" [ngClass]="{'editTagMode': editMode}" (click)="handleTagClick(tag, $event)">{{tag}}</div>
+                    <div *ngIf="(tags | async)?.length === 0">Add tags to stay organized.</div>
                 </div>
             </div>
         </div>
