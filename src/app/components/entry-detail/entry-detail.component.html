@@ -4,12 +4,12 @@
         <div class="leftNav">
             <a routerLink="../../../dashboard">My Journals</a>
             <span>></span>
-            <a [routerLink]="['../../' + journalId]">{{journalTitle}}</a>
+            <a [routerLink]="['../../' + journalId]">{{(journalTitle | async)?.title}}</a>
         </div>
         <div class="rightNav">
             <a *ngIf="!editMode" (click)="editMode = !editMode">Edit</a>
             <a>Donate</a>
-            <a>Sign out</a>
+            <a (click)="signOut()">Sign out</a>
         </div>
         
     </div>
@@ -17,8 +17,8 @@
         
         <div class="header" *ngIf="!editMode">
             <div class="leftHeader">
-                <h1>{{entry.title}}</h1>
-                <p>{{entry.date | date}}</p>
+                <h1>{{(entry | async)?.title}}</h1>
+                <p>{{(entry | async)?.date | date}}</p>
             </div>
             
             <!-- <i (click)="editMode = !editMode" title="Edit" class="fas fa-pencil-alt"></i> -->
@@ -46,13 +46,13 @@
                 <h2>Tags</h2>
                 <div class="tagDivider"></div>
                 <div class="tags">
-                    <div *ngIf="tags.length === 0">Looks like you don't have any tags.</div>
-                    <div class="tag" *ngFor="let tag of tags" (click)="updateSelectedTags(tag)" [ngClass]="{'activeTag': entry.selectedTags.includes(tag)}">{{tag}}</div>
+                    <div *ngIf="(tags | async)?.length === 0">Looks like you don't have any tags.</div>
+                    <div class="tag" *ngFor="let tag of tags | async" (click)="updateSelectedTags(tag)" [ngClass]="{'activeTag': (entry | async)?.selectedTags.includes(tag)}">{{tag}}</div>
                 </div>
             </div>
         </div>
     </div>
-    <quill-view-html *ngIf="!editMode" [content]="entry.body"></quill-view-html>
+    <quill-view-html *ngIf="!editMode" [content]="(entry | async)?.body"></quill-view-html>
     <div *ngIf="editMode">
       <quill-editor
         #editor [styles]="{height: '45vh'}"

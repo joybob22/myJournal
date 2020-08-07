@@ -18,7 +18,7 @@ export class JournalService {
 
   url = 'http://localhost:3000';
 
-  journals: Array<Journal> =
+  journals =
      [
       {
         title: 'My First Journal',
@@ -246,7 +246,6 @@ export class JournalService {
   getEntriesById(id:string) {
     return this.http.get(`${this.url}/entriesById`, {params: {uid: this.authService.user.uid, id: id}}).toPromise()
       .then(data => {
-        console.log(data);
         return data;
       })
       .catch(err => {
@@ -254,8 +253,11 @@ export class JournalService {
       })
   }
 
-  getJournalTitleById(id:string):string {
-    
+  getJournalTitleById(id:string) {
+    return this.http.get(`${this.url}/journalTitle`, {params: {uid: this.authService.user.uid, id: id}}).toPromise()
+      .then(data => {
+        return data;
+      })
     let theJournal = this.journals.filter(journal => {
       if(journal.id === id) {
         return true;
@@ -276,15 +278,20 @@ export class JournalService {
     return newTitle;
   }
 
-  getEntryById(journalId:string, entryId:string):Entries {
-    const theJournal = this.getJournalById(journalId);
-    return theJournal.entries.filter(entry => {
-      if(entry.id === entryId) {
-        return true;
-      } else {
-        return false;
-      }
-    })[0];
+  getEntryById(journalId:string, entryId:string) {
+    return this.http.get<any>(`${this.url}/entryById`, {params: {uid: this.authService.user.uid, journalId: journalId, entryId: entryId}}).toPromise()
+      .then(data => {
+        return data;
+      })
+
+    // const theJournal = this.getJournalById(journalId);
+    // return theJournal.entries.filter(entry => {
+    //   if(entry.id === entryId) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // })[0];
   }
 
   updateEntryById(journalId:string, entryId:string, editedEntry:Entries):Entries {

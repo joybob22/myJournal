@@ -5,7 +5,7 @@
             <a *ngIf="!editMode" (click)="handleEditClick()">Edit</a>
             <a *ngIf="editMode" (click)="handleEditClick()">Close Edit Mode</a>
             <a>Donate</a>
-            <a>Sign out</a>
+            <a (click)="signOut()">Sign out</a>
         </div>
     </div>
     <div id="journalDetailBody">
@@ -39,7 +39,7 @@
                 <p>Last Edit</p>
                 <p>Content</p>
             </div>
-            <div *ngFor="let entry of entries | async" class="entryContainer" [routerLink]="[entry.id]">
+            <div *ngFor="let entry of entries | async" class="entryContainer" [routerLink]="[entry.docId]">
                 <h1>{{entry.title}}</h1>
                 <p>{{entry.date | date}}</p>
                 <p>{{entry.lastEdit | date}}</p>

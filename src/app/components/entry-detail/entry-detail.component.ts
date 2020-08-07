@@ -8,6 +8,7 @@ import { EditorChangeContent, EditorChangeSelection, QuillEditorComponent, Conte
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TagsService } from '../../services/tags.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class EntryDetailComponent implements OnInit {
   entryContent = '';
   tags;
   editEntryForm: FormGroup;
-  entry:Entries;
+  entry;
   editMode: boolean = false;
   datePickerDate;
   hide = false
@@ -34,7 +35,8 @@ export class EntryDetailComponent implements OnInit {
     private _route: ActivatedRoute,
     private journalService: JournalService,
     private sanitizer: DomSanitizer,
-    private tagsService: TagsService
+    private tagsService: TagsService,
+    private authService: AuthService
   ) {
     this.form = fb.group({
       editor: ['<ol><li>test</li><li>123</li></ol>']
@@ -47,7 +49,15 @@ export class EntryDetailComponent implements OnInit {
     this.journalId = journalId;
     this.entryId = entryId;
     this.journalTitle = this.journalService.getJournalTitleById(journalId);
-    this.entry = this.journalService.getEntryById(journalId, entryId);
+    this.entry = this.journalService.getEntryById(journalId, entryId)
+      .then((data) => {
+        this.editEntryForm.patchValue({
+          entryContent: data.body,
+          dataPicker: data.date,
+          title: data.title
+        });
+        return data;
+      })
 
     this.tags = this.tagsService.getTags;
 
@@ -102,6 +112,10 @@ export class EntryDetailComponent implements OnInit {
   
   byPassHTML(html: string) {
     return this.sanitizer.bypassSecurityTrustHtml(html)
+  }
+
+  signOut() {
+    this.authService.logoutUser();
   }
 
 

@@ -44,11 +44,18 @@ export class AuthService {
       this.user = {
         uid: user.user.uid
       }
-      console.log(user);
       this.router.navigate(['dashboard']);
     }).catch((err) => {
       return err;
     })
+  }
+
+  logoutUser() {
+    this.afAuth.signOut()
+      .then(data => {
+        this.user = undefined;
+        this.router.navigate(['login']);
+      })
   }
 }
 

@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ImagePickerModalComponent } from '../image-picker-modal/image-picker-modal.component';
 import { DeleteJournalModalComponent } from '../delete-journal-modal/delete-journal-modal.component';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-journal-detail',
@@ -60,7 +61,8 @@ export class JournalDetailComponent implements OnInit {
     private tagsService: TagsService,
     private fb: FormBuilder,
     private renderer: Renderer2,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -157,6 +159,10 @@ export class JournalDetailComponent implements OnInit {
       width: '400px',
       data: {journalId: this.journalId, journalTitle: this.journal.title}
     })
+  }
+
+  signOut() {
+    this.authService.logoutUser();
   }
 
 

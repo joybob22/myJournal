@@ -18,7 +18,6 @@ export class TagsService {
   get getTags() {
     return this.http.get(`${this.url}/tags`, {params: {uid: this.authService.user.uid}})
       .toPromise().then(data => {
-        console.log(data);
         return data;
       });
   }
