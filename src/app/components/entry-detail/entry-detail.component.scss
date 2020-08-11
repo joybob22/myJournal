@@ -5,6 +5,10 @@
     margin: 0 auto;
     min-width: 700px;
 
+    .tags {
+        color: $blue;
+    }
+
     .nav {
         display: flex;
         justify-content: space-between;

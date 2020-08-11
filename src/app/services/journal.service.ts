@@ -178,44 +178,29 @@ export class JournalService {
   ]
 
   createNewJournal(title:string) {
-    const newJournal:Journal = {
+    const newJournal = {
       title: title,
-      id: (Number(this.journals[this.journals.length - 1].id) + 1).toString(),
-      img: this.imagesArray[Math.round(Math.random() * this.imagesArray.length - 1)],
-      entries: []
+      img: this.imagesArray[Math.round(Math.random() * this.imagesArray.length - 1)]
     }
 
-    this.journals.push(newJournal);
-    this.router.navigate(['../journal/' + newJournal.id]);
-    
+    this.http.post<any>(`${this.url}/createNewJournal`, {uid: this.authService.user.uid, journal: newJournal}).toPromise()
+      .then(data => {
+        this.router.navigate(['../journal/' + data.journalId]);
+      });
   }
 
   createNewEntry(journalId:string, entryTitle:string) {
-
-    let entryId;
-
-    this.journals.forEach(journal => {
-      if(journal.id === journalId) {
-        entryId = (journal.entries.length).toString()
-      }
-    })
-
-    const newEntry:Entries = {
-      title: entryTitle,
-      date: new Date(),
-      body: 'This is the start to your entry!',
-      id: entryId,
-      selectedTags: [],
-      lastEdit: new Date()
-    }
-
-    this.journals.map(journal => {
-      if(journal.id === journalId) {
-        journal.entries.push(newEntry);
-      }
-    });
-
-    this.router.navigate(['../../journal/' + journalId + '/' + entryId]);
+    this.http.post<any>(`${this.url}/createEntry`, {journalId: journalId, entryTitle: entryTitle, uid: this.authService.user.uid}).toPromise()
+      .then(data => {
+        if(data.err) {
+          console.log(data.err);
+        } else {
+          this.router.navigate(['../../journal/' + journalId + '/' + data.id]);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   getAllJournals() {
@@ -234,13 +219,17 @@ export class JournalService {
   }
 
   getJournalById(id:string) {
-    return this.http.get(`${this.url}/journalById`, {params: {uid: this.authService.user.uid, id: id}}).toPromise()
+    return this.http.get<any>(`${this.url}/journalById`, {params: {uid: this.authService.user.uid, id: id}}).toPromise()
       .then(data => {
         return data;
       })
       .catch(err => {
         console.log(err);
       });
+  }
+
+  updateJournal(journal) {
+    return this.http.post<any>(`${this.url}/updateJournal`, {journal: journal, uid: this.authService.user.uid}).toPromise();
   }
   
   getEntriesById(id:string) {
@@ -294,7 +283,25 @@ export class JournalService {
     // })[0];
   }
 
-  updateEntryById(journalId:string, entryId:string, editedEntry:Entries):Entries {
+  updateEntryById(journalId:string, entryId:string, editedEntry) {
+    console.log(editedEntry);
+    if(!editedEntry.selectedTags) {
+      editedEntry.selectedTags = [];
+    }
+
+    return this.http.post<any>(`${this.url}/updateEntry`, {
+      editedEntry: editedEntry,
+      journalId: journalId,
+      entryId: entryId,
+      uid: this.authService.user.uid
+    }).toPromise().then(data => {
+      if(data.err) {
+        console.log(data.err);
+      } else {
+        return data;
+      }
+    })
+
     this.journals.map(journal => {
       if(journal.id === journalId) {
         journal.entries.map((entry, index) => {
@@ -307,22 +314,23 @@ export class JournalService {
     return editedEntry;
   }
 
-  updateSelectedTags(journalId:string, entryId:string, selectedTags:Array<string>):Array<string> {
-    this.journals.map(journal => {
-      if(journal.id === journalId) {
-        journal.entries.map(entry => {
-          if(entry.id === entryId) {
-            entry.selectedTags = selectedTags;
-            return;
-          }
-        });
+  updateSelectedTags(journalId:string, entryId:string, selectedTags:Array<string>) {
+    return this.http.post<any>(`${this.url}/updateSelectedTags`, {
+      journalId: journalId,
+      entryId: entryId,
+      selectedTags: selectedTags,
+      uid: this.authService.user.uid
+    }).toPromise().then(data => {
+      if(data) {
+        console.log(data);
+      } else {
+        return data;
       }
-    });
-    console.log(this.journals);
-    return selectedTags;
+    })
   }
 
   updateDisplayImage(journalId: string, imageIndex) {
+    return this.http.post<any>(`${this.url}/updateJournal`, {journal: {img: this.imagesArray[imageIndex], docId: journalId}, uid: this.authService.user.uid}).toPromise();
     this.journals.map(journal => {
       if(journal.id === journalId) {
         journal.img = this.imagesArray[imageIndex];
@@ -331,12 +339,13 @@ export class JournalService {
   }
 
   deleteJournalById(journalId:string) {
-    this.journals = this.journals.filter(journal => {
-      if(journal.id === journalId) {
-        return false;
-      }
-      return true;
-    });
+    this.http.delete(`${this.url}/deleteJournal`, {params: {uid: this.authService.user.uid, journalId: journalId}}).toPromise()
+      .then(data => {
+        this.router.navigate(['../../dashboard']);
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
 

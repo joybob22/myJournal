@@ -53,59 +53,67 @@ export class EntryDetailComponent implements OnInit {
       .then((data) => {
         this.editEntryForm.patchValue({
           entryContent: data.body,
-          dataPicker: data.date,
+          datePicker: data.date,
           title: data.title
         });
+        
+        this.datePickerDate.value = data.date;
+        
         return data;
       })
 
     this.tags = this.tagsService.getTags;
-
-
+    
     this.editEntryForm =  this.fb.group({
       entryContent: [this.entry.body, Validators.required],
       datePicker: [this.entry.date, Validators.required],
       title: [this.entry.title, Validators.required]
     });
-
-    this.datePickerDate = new FormControl(this.entry.date);
+    
+    this.datePickerDate = new FormControl(this.editEntryForm.value.datePicker);
   }
 
   updateSelectedTags(tag) {
     let newTags;
-    if(this.entry.selectedTags.includes(tag)) {
-      newTags = this.entry.selectedTags.filter(tagItem => {
-        if(tag === tagItem) {
-          return false;
-        } else {
-          return true;
-        }
-      });
-    } else {
-      newTags = this.entry.selectedTags;
-      newTags.push(tag);
-    }
+    this.entry.then(data => {
+      if(data.selectedTags.includes(tag)) {
+        newTags = data.selectedTags.filter(tagItem => {
+          if(tag === tagItem) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+      } else {
+        newTags = data.selectedTags;
+        newTags.push(tag);
+      }
+      this.journalService.updateSelectedTags(this.journalId, this.entryId, newTags).then(updated => {
+        data.selectedTags = newTags;
+        console.log(data.selectedTags);
+      })
+    });
 
-    this.entry.selectedTags = this.journalService.updateSelectedTags(this.journalId, this.entryId, newTags);
   }
 
 
   saveEntry() {
     this.editEntryForm.markAllAsTouched();
     if(this.editEntryForm.status === "VALID") {
-      console.log(this.editEntryForm.value.entryContent);
-      const editedEntry:Entries = {
+      const editedEntry = {
         title: this.editEntryForm.value.title,
         date: this.editEntryForm.value.datePicker,
         body: this.editEntryForm.value.entryContent,
-        id: this.entry.id,
         selectedTags: this.entry.selectedTags,
         lastEdit: new Date()
       }
 
-      const updatedEntry = this.journalService.updateEntryById(this.journalId, this.entryId, editedEntry);
-      this.entry = updatedEntry;
-      this.editMode = !this.editMode;
+      this.entry = this.journalService.updateEntryById(this.journalId, this.entryId, editedEntry)
+        .then(newEntry => {
+          this.editMode = !this.editMode;
+          return newEntry;
+        });
+      
     }
 
   }

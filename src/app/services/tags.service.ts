@@ -22,8 +22,8 @@ export class TagsService {
       });
   }
 
-  createNewTag(tag:string):void {
-    this.tags.push(tag);
+  updateTags(tag) {
+    return this.http.post(`${this.url}/updateTags`, {tag:tag, uid: this.authService.user.uid}).toPromise();
   }
 
   removeTag(tag:string):void {

@@ -37,7 +37,6 @@ export class DeleteJournalModalComponent implements OnInit {
     if(this.deleteJournalForm.status === "VALID") {
       this.journalService.deleteJournalById(this.data.journalId);
       this.dialogRef.close();
-      this.router.navigate(['dashboard']);
     }
   }
 

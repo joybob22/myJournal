@@ -67,7 +67,12 @@ export class JournalDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.journalId = this._route.snapshot.params['id'];
-    this.journal = this.journalService.getJournalById(this.journalId);
+    this.journal = this.journalService.getJournalById(this.journalId).then((data) => {
+      this.editJournalTitleForm.patchValue({
+        title: data.title
+      });
+      return data;
+    });
     this.entries = this.journalService.getEntriesById(this.journalId);
     this.tags = this.tagsService.getTags;
     this.imagesArray = this.journalService.imagesArray;
@@ -112,24 +117,41 @@ export class JournalDetailComponent implements OnInit {
   createNewTag() {
     this.newTagForm.markAllAsTouched();
     if(this.newTagForm.status === "VALID") {
-      this.tagsService.createNewTag(this.newTagForm.value.tagName);
-      this.newTagName = '';
-      this.newTagForm.reset();
+      this.tags.then(data => {
+        data.push(this.newTagForm.value.tagName);
+        this.tagsService.updateTags(data);
+        this.newTagName = '';
+        this.newTagForm.reset();
+      });
+      // this.tags.push(this.newTagForm.value.tagName);
+      
     }
   }
 
   updateJournalTitle() {
     this.editJournalTitleForm.markAllAsTouched();
     if(this.editJournalTitleForm.status === "VALID" && this.editJournalTitleForm.value.title !== this.journal.title) {
-      this.journal.title = this.journalService.updateJournalTitleById(this.journalId, this.editJournalTitleForm.value.title);
+      this.journal = this.journal.then(data => {
+        data.title = this.editJournalTitleForm.value.title;
+        this.journalService.updateJournal(data);
+        return data;
+      });
       this.editMode = !this.editMode
     }
   }
 
   handleTagClick(tag, event) {
     if(this.editMode) {
-      this.tagsService.removeTag(tag);
-      this.tags = this.tagsService.getTags;
+      this.tags = this.tags.then(data => {
+        data = data.filter(dataTag => {
+          if(tag !== dataTag) {
+            return true;
+          }
+        });
+        this.tagsService.updateTags(data);
+        return data;
+        
+      });
     } else {
       const hasClass = event.target.classList.contains("activeTag");
       if(hasClass) {
@@ -155,10 +177,13 @@ export class JournalDetailComponent implements OnInit {
   }
 
   openDeleteJournalModal():void {
-    const dialogRef = this.dialog.open(DeleteJournalModalComponent, {
-      width: '400px',
-      data: {journalId: this.journalId, journalTitle: this.journal.title}
+    this.journal.then(data => {
+      const dialogRef = this.dialog.open(DeleteJournalModalComponent, {
+        width: '400px',
+        data: {journalId: this.journalId, journalTitle: data.title}
+      })
     })
+    
   }
 
   signOut() {
