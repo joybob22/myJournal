@@ -29,6 +29,7 @@ export class EntryDetailComponent implements OnInit {
   datePickerDate;
   hide = false
   form: FormGroup
+  
 
   constructor(
     private fb: FormBuilder,

@@ -283,6 +283,13 @@ export class JournalService {
     // })[0];
   }
 
+  loadMoreEntries(entryId, journalId) {
+    return this.http.get<any>(`${this.url}/entriesFromLastId`, {params: {uid: this.authService.user.uid, id: journalId, entryId: entryId}}).toPromise()
+      .then(data => {
+        return data;
+      })
+  }
+
   updateEntryById(journalId:string, entryId:string, editedEntry) {
     console.log(editedEntry);
     if(!editedEntry.selectedTags) {

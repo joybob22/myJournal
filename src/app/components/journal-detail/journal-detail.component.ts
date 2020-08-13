@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JournalService } from '../../services/journal.service';
 import { Journal } from '../../models/journal.model';
@@ -54,6 +54,15 @@ export class JournalDetailComponent implements OnInit {
   showForm:boolean = false;
   newEntryForm: FormGroup;
   entries;
+  moreEntries: boolean = true;
+  currentlyLoading:boolean = false;
+
+  @HostListener('window:scroll', ['$event'])
+  onscroll(event) {
+    if(window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight && this.moreEntries && !this.currentlyLoading) {
+      this.loadMoreEntries();
+    }
+  }
 
   constructor(
     private _route: ActivatedRoute,
@@ -66,11 +75,13 @@ export class JournalDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.currentlyLoading = true;
     this.journalId = this._route.snapshot.params['id'];
     this.journal = this.journalService.getJournalById(this.journalId).then((data) => {
       this.editJournalTitleForm.patchValue({
         title: data.title
       });
+      this.currentlyLoading = false;
       return data;
     });
     this.entries = this.journalService.getEntriesById(this.journalId);
@@ -85,6 +96,23 @@ export class JournalDetailComponent implements OnInit {
     this.newEntryForm = this.fb.group({
       title: ['', Validators.required]
     });
+  }
+
+  loadMoreEntries() {
+    this.currentlyLoading = true;
+    this.entries.then(data => {
+      return this.journalService.loadMoreEntries(data[data.length - 1].docId, this.journalId)
+        .then(newEntries => {
+          if(newEntries.length < 15) {
+            this.moreEntries = false;
+          }
+          newEntries.forEach((item) => {
+            data.push(item);
+          });
+          this.currentlyLoading = false;
+          return data;
+        })
+    })
   }
 
   showAddNewEntryForm() {
