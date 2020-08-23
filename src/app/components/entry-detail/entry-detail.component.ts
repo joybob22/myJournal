@@ -9,6 +9,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TagsService } from '../../services/tags.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorModalComponent } from '../error-modal/error-modal.component';
 
 
 @Component({
@@ -29,6 +31,31 @@ export class EntryDetailComponent implements OnInit {
   datePickerDate;
   hide = false
   form: FormGroup
+  uploading: boolean = false;
+
+  public editorOptions = {
+    toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],                         // text direction
+
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+
+        ['clean'],                                         // remove formatting button
+
+        ['link']                         // link and image, video
+    ]
+};
   
 
   constructor(
@@ -37,7 +64,8 @@ export class EntryDetailComponent implements OnInit {
     private journalService: JournalService,
     private sanitizer: DomSanitizer,
     private tagsService: TagsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog,
   ) {
     this.form = fb.group({
       editor: ['<ol><li>test</li><li>123</li></ol>']
@@ -64,6 +92,7 @@ export class EntryDetailComponent implements OnInit {
       })
 
     this.tags = this.tagsService.getTags;
+    
     
     this.editEntryForm =  this.fb.group({
       entryContent: [this.entry.body, Validators.required],
@@ -99,29 +128,58 @@ export class EntryDetailComponent implements OnInit {
 
 
   saveEntry() {
-    this.editEntryForm.markAllAsTouched();
-    if(this.editEntryForm.status === "VALID") {
-      const editedEntry = {
-        title: this.editEntryForm.value.title,
-        date: this.editEntryForm.value.datePicker,
-        body: this.editEntryForm.value.entryContent,
-        selectedTags: this.entry.selectedTags,
-        lastEdit: new Date()
-      }
-
-      this.entry = this.journalService.updateEntryById(this.journalId, this.entryId, editedEntry)
+    if(!this.uploading) {
+      this.uploading = true;
+      this.editEntryForm.markAllAsTouched();
+      if(this.editEntryForm.status === "VALID") {
+        const editedEntry = {
+          title: this.editEntryForm.value.title,
+          date: this.editEntryForm.value.datePicker,
+          body: this.editEntryForm.value.entryContent,
+          selectedTags: this.entry.selectedTags,
+          lastEdit: new Date()
+        }
+        
+        this.journalService.updateEntryById(this.journalId, this.entryId, editedEntry)
         .then(newEntry => {
-          this.editMode = !this.editMode;
-          return newEntry;
+          if(newEntry.error) {
+            if(newEntry.error.message === `The value of property "body" is longer than 1048487 bytes.`) {
+              const dialogRef = this.dialog.open(ErrorModalComponent, {
+                width: '400px',
+                data: {errTitle: "Unable to update entry", errMessage: `The entry has become too large to upload. You will need to start a new entry. Thank you.`}
+              })
+              this.uploading = false;
+              this.editMode = !this.editMode;
+            } else {
+              const dialogRef = this.dialog.open(ErrorModalComponent, {
+                width: '400px',
+                data: {errTitle: "An unknown error has occurred", errMessage: `The entry was not able to update. This is either because of an unstable internet connection
+                or the entry is too large. An entry can become too large when many images are being uploaded.
+                If you are using a lot of images try making the images smaller or make a new entry and upload more images there.
+                Sorry for any inconvenience.`}
+              })
+              this.uploading = false;
+              this.editMode = !this.editMode;
+            }
+          }
+          else {
+            this.entry.then(data => {
+              this.uploading = false;
+              this.editMode = !this.editMode;
+              return newEntry
+            })
+          }
+          
         });
+        
+      }
       
     }
-
   }
-  
-  byPassHTML(html: string) {
-    return this.sanitizer.bypassSecurityTrustHtml(html)
-  }
+    
+    byPassHTML(html: string) {
+      return this.sanitizer.bypassSecurityTrustHtml(html)
+    }
 
   signOut() {
     this.authService.logoutUser();

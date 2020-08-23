@@ -232,14 +232,23 @@ export class JournalService {
     return this.http.post<any>(`${this.url}/updateJournal`, {journal: journal, uid: this.authService.user.uid}).toPromise();
   }
   
-  getEntriesById(id:string) {
-    return this.http.get(`${this.url}/entriesById`, {params: {uid: this.authService.user.uid, id: id}}).toPromise()
+  getEntriesById(journalId, filterKey, filterOrder) {
+    return this.http.get(`${this.url}/entriesById`, {params: {uid: this.authService.user.uid, id: journalId, filterKey: filterKey, filterOrder: filterOrder}}).toPromise()
       .then(data => {
         return data;
       })
       .catch(err => {
         console.log(err);
       })
+  }
+
+  getEntriesByTag(journalId, selectedTags) {
+    return this.http.get(`${this.url}/entriesByTag`, {params: {uid: this.authService.user.uid, journalId: journalId, filterTags: selectedTags}}).toPromise()
+    .then(data => {
+      return data;
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   getJournalTitleById(id:string) {
@@ -283,15 +292,21 @@ export class JournalService {
     // })[0];
   }
 
-  loadMoreEntries(entryId, journalId) {
-    return this.http.get<any>(`${this.url}/entriesFromLastId`, {params: {uid: this.authService.user.uid, id: journalId, entryId: entryId}}).toPromise()
+  loadMoreEntries(entryId, journalId, filterKey, filterOrder) {
+    return this.http.get<any>(`${this.url}/entriesFromLastId`, {params: {uid: this.authService.user.uid, id: journalId, entryId: entryId, filterKey: filterKey, filterOrder: filterOrder}}).toPromise()
       .then(data => {
         return data;
       })
   }
 
+  loadMoreEntriesByTag(entryId, journalId, selectedTags) {
+    return this.http.get<any>(`${this.url}/entriesFromLastIdByTag`, {params: {uid: this.authService.user.uid, journalId: journalId, entryId: entryId, selectedTags: selectedTags}}).toPromise()
+      .then(data => {
+        return data;
+      });
+  }
+
   updateEntryById(journalId:string, entryId:string, editedEntry) {
-    console.log(editedEntry);
     if(!editedEntry.selectedTags) {
       editedEntry.selectedTags = [];
     }
@@ -307,6 +322,8 @@ export class JournalService {
       } else {
         return data;
       }
+    }).catch(err => {
+      return err;
     })
 
     this.journals.map(journal => {

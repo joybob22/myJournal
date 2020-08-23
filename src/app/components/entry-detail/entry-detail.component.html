@@ -55,10 +55,14 @@
     <quill-view-html *ngIf="!editMode" [content]="(entry | async)?.body"></quill-view-html>
     <div *ngIf="editMode">
       <quill-editor
+        [modules]="editorOptions"
         #editor [styles]="{height: '45vh'}"
         formControlName="entryContent">
       </quill-editor>
-      <button mat-stroked-button class="saveButton" (click)="saveEntry()">Save</button>
+      <button mat-stroked-button class="saveButton" (click)="saveEntry()">
+          <span *ngIf="!uploading">Save</span>
+          <mat-spinner style="margin: 0 auto" *ngIf="uploading" diameter="28"></mat-spinner>
+        </button>
     </div>
     
 </div>

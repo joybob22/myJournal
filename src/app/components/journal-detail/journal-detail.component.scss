@@ -99,6 +99,25 @@ h1 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     font-weight: 100;
+
+    select {
+        border: none;
+        color: $blue;
+        font-weight: 100;
+        font-family: Roboto;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        outline: none;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    select::-ms-expand {
+        display: none;
+    }
 }
 
 
@@ -117,8 +136,7 @@ h1 {
     color: #708090;
 
     &:hover {
-        background-color: #708090;
-        color: white;
+        background-color: #ececec;
         cursor: pointer;
     }
 

@@ -56,6 +56,10 @@ export class JournalDetailComponent implements OnInit {
   entries;
   moreEntries: boolean = true;
   currentlyLoading:boolean = false;
+  filtersForm: FormGroup;
+  filterKey = 'lastEdit';
+  filterOrder = 'desc';
+  tagsSelected = false;
 
   @HostListener('window:scroll', ['$event'])
   onscroll(event) {
@@ -84,7 +88,12 @@ export class JournalDetailComponent implements OnInit {
       this.currentlyLoading = false;
       return data;
     });
-    this.entries = this.journalService.getEntriesById(this.journalId);
+    this.filtersForm = this.fb.group({
+      title: [''],
+      date: [''],
+      lastEdit: ['desc']
+    });
+    this.entries = this.journalService.getEntriesById(this.journalId, this.filterKey, this.filterOrder);
     this.tags = this.tagsService.getTags;
     this.imagesArray = this.journalService.imagesArray;
     this.newTagForm = this.fb.group({
@@ -98,10 +107,44 @@ export class JournalDetailComponent implements OnInit {
     });
   }
 
+  
+
+  changeEntriesFilter(type, event) {
+    this.currentlyLoading = true;
+    if(type === 'date') {
+      this.filtersForm.patchValue({
+        lastEdit: '',
+        title: ''
+      });
+    }
+    else if(type === 'title') {
+      this.filtersForm.patchValue({
+        lastEdit: '',
+        date: ''
+      });
+    } else {
+      this.filtersForm.patchValue({
+        date: '',
+        title: ''
+      });
+    }
+
+    console.log(type, event.target.value);
+    this.filterKey = type;
+    this.filterOrder = event.target.value;
+    this.entries = this.journalService.getEntriesById(this.journalId, type, event.target.value).then(data => {
+      this.currentlyLoading = false;
+      this.moreEntries = true;
+      return data;
+    })
+
+  }
+
   loadMoreEntries() {
     this.currentlyLoading = true;
-    this.entries.then(data => {
-      return this.journalService.loadMoreEntries(data[data.length - 1].docId, this.journalId)
+    if(this.tagsSelected) {
+      this.entries.then(data => {
+        return this.journalService.loadMoreEntriesByTag(data[data.length - 1].docId, this.journalId, this.selectedTags)
         .then(newEntries => {
           if(newEntries.length < 15) {
             this.moreEntries = false;
@@ -112,7 +155,22 @@ export class JournalDetailComponent implements OnInit {
           this.currentlyLoading = false;
           return data;
         })
-    })
+      })
+    } else {
+      this.entries.then(data => {
+        return this.journalService.loadMoreEntries(data[data.length - 1].docId, this.journalId, this.filterKey, this.filterOrder)
+          .then(newEntries => {
+            if(newEntries.length < 15) {
+              this.moreEntries = false;
+            }
+            newEntries.forEach((item) => {
+              data.push(item);
+            });
+            this.currentlyLoading = false;
+            return data;
+          })
+      })
+    }
   }
 
   showAddNewEntryForm() {
@@ -169,6 +227,7 @@ export class JournalDetailComponent implements OnInit {
   }
 
   handleTagClick(tag, event) {
+    this.moreEntries = true;
     if(this.editMode) {
       this.tags = this.tags.then(data => {
         data = data.filter(dataTag => {
@@ -189,9 +248,27 @@ export class JournalDetailComponent implements OnInit {
             return true;
           } 
         });
+        if(this.selectedTags.length === 0) {
+          this.currentlyLoading = true;
+          this.entries = this.journalService.getEntriesById(this.journalId, this.filterKey, this.filterOrder).then(data => {
+            this.currentlyLoading = false;
+            return data;
+          });
+        } else {
+          this.currentlyLoading = true;
+          this.entries = this.journalService.getEntriesByTag(this.journalId, this.selectedTags).then(newEntries => {
+            this.currentlyLoading = false;
+            return newEntries;
+          })
+        }
       } else {
         this.selectedTags.push(tag);
         this.renderer.addClass(event.target, "activeTag");
+        this.currentlyLoading = true;
+        this.entries = this.journalService.getEntriesByTag(this.journalId, this.selectedTags).then(newEntries => {
+          this.currentlyLoading = false;
+          return newEntries;
+        })
       }
     }
   }

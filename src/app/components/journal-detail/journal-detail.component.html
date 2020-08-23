@@ -33,10 +33,22 @@
                 
                 
             </div>
-            <div *ngIf="(entries | async)?.length !== 0" class="entryHeaders">
-                <p>Title</p>
-                <p>Date</p>
-                <p>Last Edit</p>
+            <div *ngIf="(entries | async)?.length !== 0" class="entryHeaders" [formGroup]="filtersForm">
+                <select formControlName="title" (change)="changeEntriesFilter('title', $event)">
+                    <option value="" disabled selected>Title</option>
+                    <option value="asc">Title (Asc)</option>
+                    <option value="desc">Title (Desc)</option>
+                </select>
+                <select formControlName="date" (change)="changeEntriesFilter('date', $event)">
+                    <option value="" disabled selected>Date</option>
+                    <option value="asc">Date (Asc)</option>
+                    <option value="desc">Date (Desc)</option>
+                </select>
+                <select formControlName="lastEdit" (change)="changeEntriesFilter('lastEdit', $event)">
+                    <option value="" disabled>Last Edit</option>
+                    <option value="asc">Last Edit (Asc)</option>
+                    <option value="desc">Last Edit (Desc)</option>
+                </select>
                 <p>Content</p>
             </div>
             <div *ngFor="let entry of entries | async" class="entryContainer" [routerLink]="[entry.docId]">
