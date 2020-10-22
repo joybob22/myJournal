@@ -4,7 +4,7 @@
         <div class="leftNavItems">
             <a *ngIf="!editMode" (click)="handleEditClick()">Edit</a>
             <a *ngIf="editMode" (click)="handleEditClick()">Close Edit Mode</a>
-            <a>Donate</a>
+            <a [routerLink]="['../../donate']">Donate</a>
             <a (click)="signOut()">Sign out</a>
         </div>
     </div>

@@ -10,6 +10,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
+import {FormsModule} from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -28,6 +29,8 @@ import { StripTagsAndSlicePipe } from './pipes/strip-tags-and-slice.pipe';
 import { ImagePickerModalComponent } from './components/image-picker-modal/image-picker-modal.component';
 import { DeleteJournalModalComponent } from './components/delete-journal-modal/delete-journal-modal.component';
 import { ErrorModalComponent } from './components/error-modal/error-modal.component';
+import { DonatePageComponent } from './components/donate-page/donate-page.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -39,12 +42,15 @@ import { ErrorModalComponent } from './components/error-modal/error-modal.compon
     StripTagsAndSlicePipe,
     ImagePickerModalComponent,
     DeleteJournalModalComponent,
-    ErrorModalComponent
+    ErrorModalComponent,
+    DonatePageComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     BrowserAnimationsModule,
     AngularEditorModule,
     ReactiveFormsModule,

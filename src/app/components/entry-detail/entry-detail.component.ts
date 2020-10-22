@@ -163,7 +163,7 @@ export class EntryDetailComponent implements OnInit {
             }
           }
           else {
-            this.entry.then(data => {
+            this.entry = this.entry.then(data => {
               this.uploading = false;
               this.editMode = !this.editMode;
               return newEntry

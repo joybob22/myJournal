@@ -30,6 +30,8 @@ h1 {
 
         .leftNavItems a {
             padding-left: 15px;
+            color: $blue;
+            text-decoration: none;
 
             &:hover {
                 cursor: pointer;
