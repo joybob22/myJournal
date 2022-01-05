@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ImagePickerModalComponent } from './image-picker-modal.component';
 
@@ -6,7 +6,7 @@ describe('ImagePickerModalComponent', () => {
   let component: ImagePickerModalComponent;
   let fixture: ComponentFixture<ImagePickerModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ImagePickerModalComponent ]
     })
